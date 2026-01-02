@@ -1,0 +1,7 @@
+# DO NOT REMOVE. CLOUDLINUX PASSENGER CONFIGURATION BEGIN
+PassengerAppRoot "/home/carq8317/public_html/sukadracin.online"
+PassengerBaseURI "/"
+PassengerNodejs "/home/carq8317/nodevenv/public_html/sukadracin.online/20/bin/node"
+PassengerAppType node
+PassengerStartupFile loader.cjs
+# DO NOT REMOVE. CLOUDLINUX PASSENGER CONFIGURATION END

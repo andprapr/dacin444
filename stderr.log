@@ -1,0 +1,684 @@
+node:internal/modules/esm/resolve:1204
+    throw error;
+    ^
+
+Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'mongoose' imported from /home/carq8317/public_html/sukadracin.online/lib/db.js
+    at packageResolve (node:internal/modules/esm/resolve:873:9)
+    at moduleResolve (node:internal/modules/esm/resolve:946:18)
+    at defaultResolve (node:internal/modules/esm/resolve:1188:11)
+    at ModuleLoader.defaultResolve (node:internal/modules/esm/loader:642:12)
+    at #cachedDefaultResolve (node:internal/modules/esm/loader:591:25)
+    at ModuleLoader.getModuleJobForRequire (node:internal/modules/esm/loader:347:53)
+    at new ModuleJobSync (node:internal/modules/esm/module_job:333:34)
+    at ModuleLoader.getModuleJobForRequire (node:internal/modules/esm/loader:407:11)
+    at new ModuleJobSync (node:internal/modules/esm/module_job:333:34)
+    at ModuleLoader.getModuleJobForRequire (node:internal/modules/esm/loader:407:11) {
+  code: 'ERR_MODULE_NOT_FOUND'
+}
+
+Node.js v20.19.4
+node:internal/modules/esm/module_job:384
+      throw new ERR_REQUIRE_ASYNC_MODULE();
+      ^
+
+Error [ERR_REQUIRE_ASYNC_MODULE]: require() cannot be used on an ESM graph with top-level await. Use import() instead. To see where the top-level await comes from, use --experimental-print-required-tla.
+    at ModuleJobSync.runSync (node:internal/modules/esm/module_job:384:13)
+    at ModuleLoader.importSyncForRequire (node:internal/modules/esm/loader:323:47)
+    at loadESMFromCJS (node:internal/modules/cjs/loader:1371:24)
+    at Module._compile (node:internal/modules/cjs/loader:1511:5)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1572:16)
+    at Module.load (node:internal/modules/cjs/loader:1275:32)
+    at Module._load (node:internal/modules/cjs/loader:1096:12)
+    at Module.require (node:internal/modules/cjs/loader:1298:19)
+    at require (node:internal/modules/helpers:182:18)
+    at startApplication (/usr/local/lsws/fcgi-bin/lsnode.js:48:15) {
+  code: 'ERR_REQUIRE_ASYNC_MODULE'
+}
+
+Node.js v20.19.4
+node:internal/modules/esm/module_job:384
+      throw new ERR_REQUIRE_ASYNC_MODULE();
+      ^
+
+Error [ERR_REQUIRE_ASYNC_MODULE]: require() cannot be used on an ESM graph with top-level await. Use import() instead. To see where the top-level await comes from, use --experimental-print-required-tla.
+    at ModuleJobSync.runSync (node:internal/modules/esm/module_job:384:13)
+    at ModuleLoader.importSyncForRequire (node:internal/modules/esm/loader:323:47)
+    at loadESMFromCJS (node:internal/modules/cjs/loader:1371:24)
+    at Module._compile (node:internal/modules/cjs/loader:1511:5)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1572:16)
+    at Module.load (node:internal/modules/cjs/loader:1275:32)
+    at Module._load (node:internal/modules/cjs/loader:1096:12)
+    at Module.require (node:internal/modules/cjs/loader:1298:19)
+    at require (node:internal/modules/helpers:182:18)
+    at startApplication (/usr/local/lsws/fcgi-bin/lsnode.js:48:15) {
+  code: 'ERR_REQUIRE_ASYNC_MODULE'
+}
+
+Node.js v20.19.4
+node:internal/modules/esm/module_job:384
+      throw new ERR_REQUIRE_ASYNC_MODULE();
+      ^
+
+Error [ERR_REQUIRE_ASYNC_MODULE]: require() cannot be used on an ESM graph with top-level await. Use import() instead. To see where the top-level await comes from, use --experimental-print-required-tla.
+    at ModuleJobSync.runSync (node:internal/modules/esm/module_job:384:13)
+    at ModuleLoader.importSyncForRequire (node:internal/modules/esm/loader:323:47)
+    at loadESMFromCJS (node:internal/modules/cjs/loader:1371:24)
+    at Module._compile (node:internal/modules/cjs/loader:1511:5)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1572:16)
+    at Module.load (node:internal/modules/cjs/loader:1275:32)
+    at Module._load (node:internal/modules/cjs/loader:1096:12)
+    at Module.require (node:internal/modules/cjs/loader:1298:19)
+    at require (node:internal/modules/helpers:182:18)
+    at startApplication (/usr/local/lsws/fcgi-bin/lsnode.js:48:15) {
+  code: 'ERR_REQUIRE_ASYNC_MODULE'
+}
+
+Node.js v20.19.4
+node:internal/modules/esm/module_job:384
+      throw new ERR_REQUIRE_ASYNC_MODULE();
+      ^
+
+Error [ERR_REQUIRE_ASYNC_MODULE]: require() cannot be used on an ESM graph with top-level await. Use import() instead. To see where the top-level await comes from, use --experimental-print-required-tla.
+    at ModuleJobSync.runSync (node:internal/modules/esm/module_job:384:13)
+    at ModuleLoader.importSyncForRequire (node:internal/modules/esm/loader:323:47)
+    at loadESMFromCJS (node:internal/modules/cjs/loader:1371:24)
+    at Module._compile (node:internal/modules/cjs/loader:1511:5)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1572:16)
+    at Module.load (node:internal/modules/cjs/loader:1275:32)
+    at Module._load (node:internal/modules/cjs/loader:1096:12)
+    at Module.require (node:internal/modules/cjs/loader:1298:19)
+    at require (node:internal/modules/helpers:182:18)
+    at startApplication (/usr/local/lsws/fcgi-bin/lsnode.js:48:15) {
+  code: 'ERR_REQUIRE_ASYNC_MODULE'
+}
+
+Node.js v20.19.4
+node:internal/modules/esm/module_job:384
+      throw new ERR_REQUIRE_ASYNC_MODULE();
+      ^
+
+Error [ERR_REQUIRE_ASYNC_MODULE]: require() cannot be used on an ESM graph with top-level await. Use import() instead. To see where the top-level await comes from, use --experimental-print-required-tla.
+    at ModuleJobSync.runSync (node:internal/modules/esm/module_job:384:13)
+    at ModuleLoader.importSyncForRequire (node:internal/modules/esm/loader:323:47)
+    at loadESMFromCJS (node:internal/modules/cjs/loader:1371:24)
+    at Module._compile (node:internal/modules/cjs/loader:1511:5)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1572:16)
+    at Module.load (node:internal/modules/cjs/loader:1275:32)
+    at Module._load (node:internal/modules/cjs/loader:1096:12)
+    at Module.require (node:internal/modules/cjs/loader:1298:19)
+    at require (node:internal/modules/helpers:182:18)
+    at startApplication (/usr/local/lsws/fcgi-bin/lsnode.js:48:15) {
+  code: 'ERR_REQUIRE_ASYNC_MODULE'
+}
+
+Node.js v20.19.4
+node:internal/modules/esm/module_job:384
+      throw new ERR_REQUIRE_ASYNC_MODULE();
+      ^
+
+Error [ERR_REQUIRE_ASYNC_MODULE]: require() cannot be used on an ESM graph with top-level await. Use import() instead. To see where the top-level await comes from, use --experimental-print-required-tla.
+    at ModuleJobSync.runSync (node:internal/modules/esm/module_job:384:13)
+    at ModuleLoader.importSyncForRequire (node:internal/modules/esm/loader:323:47)
+    at loadESMFromCJS (node:internal/modules/cjs/loader:1371:24)
+    at Module._compile (node:internal/modules/cjs/loader:1511:5)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1572:16)
+    at Module.load (node:internal/modules/cjs/loader:1275:32)
+    at Module._load (node:internal/modules/cjs/loader:1096:12)
+    at Module.require (node:internal/modules/cjs/loader:1298:19)
+    at require (node:internal/modules/helpers:182:18)
+    at startApplication (/usr/local/lsws/fcgi-bin/lsnode.js:48:15) {
+  code: 'ERR_REQUIRE_ASYNC_MODULE'
+}
+
+Node.js v20.19.4
+node:internal/modules/esm/module_job:384
+      throw new ERR_REQUIRE_ASYNC_MODULE();
+      ^
+
+Error [ERR_REQUIRE_ASYNC_MODULE]: require() cannot be used on an ESM graph with top-level await. Use import() instead. To see where the top-level await comes from, use --experimental-print-required-tla.
+    at ModuleJobSync.runSync (node:internal/modules/esm/module_job:384:13)
+    at ModuleLoader.importSyncForRequire (node:internal/modules/esm/loader:323:47)
+    at loadESMFromCJS (node:internal/modules/cjs/loader:1371:24)
+    at Module._compile (node:internal/modules/cjs/loader:1511:5)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1572:16)
+    at Module.load (node:internal/modules/cjs/loader:1275:32)
+    at Module._load (node:internal/modules/cjs/loader:1096:12)
+    at Module.require (node:internal/modules/cjs/loader:1298:19)
+    at require (node:internal/modules/helpers:182:18)
+    at startApplication (/usr/local/lsws/fcgi-bin/lsnode.js:48:15) {
+  code: 'ERR_REQUIRE_ASYNC_MODULE'
+}
+
+Node.js v20.19.4
+node:internal/modules/esm/module_job:384
+      throw new ERR_REQUIRE_ASYNC_MODULE();
+      ^
+
+Error [ERR_REQUIRE_ASYNC_MODULE]: require() cannot be used on an ESM graph with top-level await. Use import() instead. To see where the top-level await comes from, use --experimental-print-required-tla.
+    at ModuleJobSync.runSync (node:internal/modules/esm/module_job:384:13)
+    at ModuleLoader.importSyncForRequire (node:internal/modules/esm/loader:323:47)
+    at loadESMFromCJS (node:internal/modules/cjs/loader:1371:24)
+    at Module._compile (node:internal/modules/cjs/loader:1511:5)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1572:16)
+    at Module.load (node:internal/modules/cjs/loader:1275:32)
+    at Module._load (node:internal/modules/cjs/loader:1096:12)
+    at Module.require (node:internal/modules/cjs/loader:1298:19)
+    at require (node:internal/modules/helpers:182:18)
+    at startApplication (/usr/local/lsws/fcgi-bin/lsnode.js:48:15) {
+  code: 'ERR_REQUIRE_ASYNC_MODULE'
+}
+
+Node.js v20.19.4
+node:internal/modules/esm/module_job:384
+      throw new ERR_REQUIRE_ASYNC_MODULE();
+      ^
+
+Error [ERR_REQUIRE_ASYNC_MODULE]: require() cannot be used on an ESM graph with top-level await. Use import() instead. To see where the top-level await comes from, use --experimental-print-required-tla.
+    at ModuleJobSync.runSync (node:internal/modules/esm/module_job:384:13)
+    at ModuleLoader.importSyncForRequire (node:internal/modules/esm/loader:323:47)
+    at loadESMFromCJS (node:internal/modules/cjs/loader:1371:24)
+    at Module._compile (node:internal/modules/cjs/loader:1511:5)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1572:16)
+    at Module.load (node:internal/modules/cjs/loader:1275:32)
+    at Module._load (node:internal/modules/cjs/loader:1096:12)
+    at Module.require (node:internal/modules/cjs/loader:1298:19)
+    at require (node:internal/modules/helpers:182:18)
+    at startApplication (/usr/local/lsws/fcgi-bin/lsnode.js:48:15) {
+  code: 'ERR_REQUIRE_ASYNC_MODULE'
+}
+
+Node.js v20.19.4
+node:internal/modules/esm/module_job:384
+      throw new ERR_REQUIRE_ASYNC_MODULE();
+      ^
+
+Error [ERR_REQUIRE_ASYNC_MODULE]: require() cannot be used on an ESM graph with top-level await. Use import() instead. To see where the top-level await comes from, use --experimental-print-required-tla.
+    at ModuleJobSync.runSync (node:internal/modules/esm/module_job:384:13)
+    at ModuleLoader.importSyncForRequire (node:internal/modules/esm/loader:323:47)
+    at loadESMFromCJS (node:internal/modules/cjs/loader:1371:24)
+    at Module._compile (node:internal/modules/cjs/loader:1511:5)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1572:16)
+    at Module.load (node:internal/modules/cjs/loader:1275:32)
+    at Module._load (node:internal/modules/cjs/loader:1096:12)
+    at Module.require (node:internal/modules/cjs/loader:1298:19)
+    at require (node:internal/modules/helpers:182:18)
+    at startApplication (/usr/local/lsws/fcgi-bin/lsnode.js:48:15) {
+  code: 'ERR_REQUIRE_ASYNC_MODULE'
+}
+
+Node.js v20.19.4
+node:internal/modules/esm/module_job:384
+      throw new ERR_REQUIRE_ASYNC_MODULE();
+      ^
+
+Error [ERR_REQUIRE_ASYNC_MODULE]: require() cannot be used on an ESM graph with top-level await. Use import() instead. To see where the top-level await comes from, use --experimental-print-required-tla.
+    at ModuleJobSync.runSync (node:internal/modules/esm/module_job:384:13)
+    at ModuleLoader.importSyncForRequire (node:internal/modules/esm/loader:323:47)
+    at loadESMFromCJS (node:internal/modules/cjs/loader:1371:24)
+    at Module._compile (node:internal/modules/cjs/loader:1511:5)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1572:16)
+    at Module.load (node:internal/modules/cjs/loader:1275:32)
+    at Module._load (node:internal/modules/cjs/loader:1096:12)
+    at Module.require (node:internal/modules/cjs/loader:1298:19)
+    at require (node:internal/modules/helpers:182:18)
+    at startApplication (/usr/local/lsws/fcgi-bin/lsnode.js:48:15) {
+  code: 'ERR_REQUIRE_ASYNC_MODULE'
+}
+
+Node.js v20.19.4
+MongooseError: Operation `settings.findOne()` buffering timed out after 10000ms
+    at Timeout._onTimeout (/home/carq8317/nodevenv/public_html/sukadracin.online/20/lib/node_modules/mongoose/lib/drivers/node-mongodb-native/collection.js:131:25)
+    at listOnTimeout (node:internal/timers:581:17)
+    at process.processTimers (node:internal/timers:519:7)
+MongooseError: Operation `settings.findOne()` buffering timed out after 10000ms
+    at Timeout._onTimeout (/home/carq8317/nodevenv/public_html/sukadracin.online/20/lib/node_modules/mongoose/lib/drivers/node-mongodb-native/collection.js:131:25)
+    at listOnTimeout (node:internal/timers:581:17)
+    at process.processTimers (node:internal/timers:519:7)
+❌ Gagal Konek MongoDB: MongooseServerSelectionError: Could not connect to any servers in your MongoDB Atlas cluster. One common reason is that you're trying to access the database from an IP that isn't whitelisted. Make sure your current IP address is on your Atlas cluster's IP whitelist: https://www.mongodb.com/docs/atlas/security-whitelist/
+    at _handleConnectionErrors (/home/carq8317/nodevenv/public_html/sukadracin.online/20/lib/node_modules/mongoose/lib/connection.js:1169:11)
+    at NativeConnection.openUri (/home/carq8317/nodevenv/public_html/sukadracin.online/20/lib/node_modules/mongoose/lib/connection.js:1100:11)
+    at async connectDB (file:///home/carq8317/public_html/sukadracin.online/lib/db.js:9:9) {
+  errorLabelSet: Set(0) {},
+  reason: TopologyDescription {
+    type: 'ReplicaSetNoPrimary',
+    servers: Map(3) {
+      'ac-dssy8qo-shard-00-00.2wwsnmc.mongodb.net:27017' => [ServerDescription],
+      'ac-dssy8qo-shard-00-02.2wwsnmc.mongodb.net:27017' => [ServerDescription],
+      'ac-dssy8qo-shard-00-01.2wwsnmc.mongodb.net:27017' => [ServerDescription]
+    },
+    stale: false,
+    compatible: true,
+    heartbeatFrequencyMS: 10000,
+    localThresholdMS: 15,
+    setName: 'atlas-17klgo-shard-0',
+    maxElectionId: null,
+    maxSetVersion: null,
+    commonWireVersion: 0,
+    logicalSessionTimeoutMinutes: null
+  },
+  code: undefined,
+  cause: TopologyDescription {
+    type: 'ReplicaSetNoPrimary',
+    servers: Map(3) {
+      'ac-dssy8qo-shard-00-00.2wwsnmc.mongodb.net:27017' => [ServerDescription],
+      'ac-dssy8qo-shard-00-02.2wwsnmc.mongodb.net:27017' => [ServerDescription],
+      'ac-dssy8qo-shard-00-01.2wwsnmc.mongodb.net:27017' => [ServerDescription]
+    },
+    stale: false,
+    compatible: true,
+    heartbeatFrequencyMS: 10000,
+    localThresholdMS: 15,
+    setName: 'atlas-17klgo-shard-0',
+    maxElectionId: null,
+    maxSetVersion: null,
+    commonWireVersion: 0,
+    logicalSessionTimeoutMinutes: null
+  }
+}
+MongooseError: Operation `settings.findOne()` buffering timed out after 10000ms
+    at Timeout._onTimeout (/home/carq8317/nodevenv/public_html/sukadracin.online/20/lib/node_modules/mongoose/lib/drivers/node-mongodb-native/collection.js:131:25)
+    at listOnTimeout (node:internal/timers:581:17)
+    at process.processTimers (node:internal/timers:519:7)
+MongooseError: Operation `settings.findOne()` buffering timed out after 10000ms
+    at Timeout._onTimeout (/home/carq8317/nodevenv/public_html/sukadracin.online/20/lib/node_modules/mongoose/lib/drivers/node-mongodb-native/collection.js:131:25)
+    at listOnTimeout (node:internal/timers:581:17)
+    at process.processTimers (node:internal/timers:519:7)
+❌ Gagal Konek MongoDB: MongooseServerSelectionError: Could not connect to any servers in your MongoDB Atlas cluster. One common reason is that you're trying to access the database from an IP that isn't whitelisted. Make sure your current IP address is on your Atlas cluster's IP whitelist: https://www.mongodb.com/docs/atlas/security-whitelist/
+    at _handleConnectionErrors (/home/carq8317/nodevenv/public_html/sukadracin.online/20/lib/node_modules/mongoose/lib/connection.js:1169:11)
+    at NativeConnection.openUri (/home/carq8317/nodevenv/public_html/sukadracin.online/20/lib/node_modules/mongoose/lib/connection.js:1100:11)
+    at async connectDB (file:///home/carq8317/public_html/sukadracin.online/lib/db.js:9:9) {
+  errorLabelSet: Set(0) {},
+  reason: TopologyDescription {
+    type: 'ReplicaSetNoPrimary',
+    servers: Map(3) {
+      'ac-dssy8qo-shard-00-00.2wwsnmc.mongodb.net:27017' => [ServerDescription],
+      'ac-dssy8qo-shard-00-02.2wwsnmc.mongodb.net:27017' => [ServerDescription],
+      'ac-dssy8qo-shard-00-01.2wwsnmc.mongodb.net:27017' => [ServerDescription]
+    },
+    stale: false,
+    compatible: true,
+    heartbeatFrequencyMS: 10000,
+    localThresholdMS: 15,
+    setName: 'atlas-17klgo-shard-0',
+    maxElectionId: null,
+    maxSetVersion: null,
+    commonWireVersion: 0,
+    logicalSessionTimeoutMinutes: null
+  },
+  code: undefined,
+  cause: TopologyDescription {
+    type: 'ReplicaSetNoPrimary',
+    servers: Map(3) {
+      'ac-dssy8qo-shard-00-00.2wwsnmc.mongodb.net:27017' => [ServerDescription],
+      'ac-dssy8qo-shard-00-02.2wwsnmc.mongodb.net:27017' => [ServerDescription],
+      'ac-dssy8qo-shard-00-01.2wwsnmc.mongodb.net:27017' => [ServerDescription]
+    },
+    stale: false,
+    compatible: true,
+    heartbeatFrequencyMS: 10000,
+    localThresholdMS: 15,
+    setName: 'atlas-17klgo-shard-0',
+    maxElectionId: null,
+    maxSetVersion: null,
+    commonWireVersion: 0,
+    logicalSessionTimeoutMinutes: null
+  }
+}
+MongooseError: Operation `settings.findOne()` buffering timed out after 10000ms
+    at Timeout._onTimeout (/home/carq8317/nodevenv/public_html/sukadracin.online/20/lib/node_modules/mongoose/lib/drivers/node-mongodb-native/collection.js:131:25)
+    at listOnTimeout (node:internal/timers:581:17)
+    at process.processTimers (node:internal/timers:519:7)
+MongooseError: Operation `settings.findOne()` buffering timed out after 10000ms
+    at Timeout._onTimeout (/home/carq8317/nodevenv/public_html/sukadracin.online/20/lib/node_modules/mongoose/lib/drivers/node-mongodb-native/collection.js:131:25)
+    at listOnTimeout (node:internal/timers:581:17)
+    at process.processTimers (node:internal/timers:519:7)
+MongooseError: Operation `settings.findOne()` buffering timed out after 10000ms
+    at Timeout._onTimeout (/home/carq8317/nodevenv/public_html/sukadracin.online/20/lib/node_modules/mongoose/lib/drivers/node-mongodb-native/collection.js:131:25)
+    at listOnTimeout (node:internal/timers:581:17)
+    at process.processTimers (node:internal/timers:519:7)
+MongooseError: Operation `settings.findOne()` buffering timed out after 10000ms
+    at Timeout._onTimeout (/home/carq8317/nodevenv/public_html/sukadracin.online/20/lib/node_modules/mongoose/lib/drivers/node-mongodb-native/collection.js:131:25)
+    at listOnTimeout (node:internal/timers:581:17)
+    at process.processTimers (node:internal/timers:519:7)
+MongooseError: Operation `settings.findOne()` buffering timed out after 10000ms
+    at Timeout._onTimeout (/home/carq8317/nodevenv/public_html/sukadracin.online/20/lib/node_modules/mongoose/lib/drivers/node-mongodb-native/collection.js:131:25)
+    at listOnTimeout (node:internal/timers:581:17)
+    at process.processTimers (node:internal/timers:519:7)
+MongooseError: Operation `settings.findOne()` buffering timed out after 10000ms
+    at Timeout._onTimeout (/home/carq8317/nodevenv/public_html/sukadracin.online/20/lib/node_modules/mongoose/lib/drivers/node-mongodb-native/collection.js:131:25)
+    at listOnTimeout (node:internal/timers:581:17)
+    at process.processTimers (node:internal/timers:519:7)
+MongooseError: Operation `settings.findOne()` buffering timed out after 10000ms
+    at Timeout._onTimeout (/home/carq8317/nodevenv/public_html/sukadracin.online/20/lib/node_modules/mongoose/lib/drivers/node-mongodb-native/collection.js:131:25)
+    at listOnTimeout (node:internal/timers:581:17)
+    at process.processTimers (node:internal/timers:519:7)
+MongooseError: Operation `settings.findOne()` buffering timed out after 10000ms
+    at Timeout._onTimeout (/home/carq8317/nodevenv/public_html/sukadracin.online/20/lib/node_modules/mongoose/lib/drivers/node-mongodb-native/collection.js:131:25)
+    at listOnTimeout (node:internal/timers:581:17)
+    at process.processTimers (node:internal/timers:519:7)
+MongooseError: Operation `settings.findOne()` buffering timed out after 10000ms
+    at Timeout._onTimeout (/home/carq8317/nodevenv/public_html/sukadracin.online/20/lib/node_modules/mongoose/lib/drivers/node-mongodb-native/collection.js:131:25)
+    at listOnTimeout (node:internal/timers:581:17)
+    at process.processTimers (node:internal/timers:519:7)
+MongooseError: Operation `settings.findOne()` buffering timed out after 10000ms
+    at Timeout._onTimeout (/home/carq8317/nodevenv/public_html/sukadracin.online/20/lib/node_modules/mongoose/lib/drivers/node-mongodb-native/collection.js:131:25)
+    at listOnTimeout (node:internal/timers:581:17)
+    at process.processTimers (node:internal/timers:519:7)
+MongooseError: Operation `settings.findOne()` buffering timed out after 10000ms
+    at Timeout._onTimeout (/home/carq8317/nodevenv/public_html/sukadracin.online/20/lib/node_modules/mongoose/lib/drivers/node-mongodb-native/collection.js:131:25)
+    at listOnTimeout (node:internal/timers:581:17)
+    at process.processTimers (node:internal/timers:519:7)
+MongooseError: Operation `settings.findOne()` buffering timed out after 10000ms
+    at Timeout._onTimeout (/home/carq8317/nodevenv/public_html/sukadracin.online/20/lib/node_modules/mongoose/lib/drivers/node-mongodb-native/collection.js:131:25)
+    at listOnTimeout (node:internal/timers:581:17)
+    at process.processTimers (node:internal/timers:519:7)
+MongooseError: Operation `settings.findOne()` buffering timed out after 10000ms
+    at Timeout._onTimeout (/home/carq8317/nodevenv/public_html/sukadracin.online/20/lib/node_modules/mongoose/lib/drivers/node-mongodb-native/collection.js:131:25)
+    at listOnTimeout (node:internal/timers:581:17)
+    at process.processTimers (node:internal/timers:519:7)
+MongooseError: Operation `settings.findOne()` buffering timed out after 10000ms
+    at Timeout._onTimeout (/home/carq8317/nodevenv/public_html/sukadracin.online/20/lib/node_modules/mongoose/lib/drivers/node-mongodb-native/collection.js:131:25)
+    at listOnTimeout (node:internal/timers:581:17)
+    at process.processTimers (node:internal/timers:519:7)
+MongooseError: Operation `settings.findOne()` buffering timed out after 10000ms
+    at Timeout._onTimeout (/home/carq8317/nodevenv/public_html/sukadracin.online/20/lib/node_modules/mongoose/lib/drivers/node-mongodb-native/collection.js:131:25)
+    at listOnTimeout (node:internal/timers:581:17)
+    at process.processTimers (node:internal/timers:519:7)
+MongooseError: Operation `settings.findOne()` buffering timed out after 10000ms
+    at Timeout._onTimeout (/home/carq8317/nodevenv/public_html/sukadracin.online/20/lib/node_modules/mongoose/lib/drivers/node-mongodb-native/collection.js:131:25)
+    at listOnTimeout (node:internal/timers:581:17)
+    at process.processTimers (node:internal/timers:519:7)
+MongooseError: Operation `settings.findOne()` buffering timed out after 10000ms
+    at Timeout._onTimeout (/home/carq8317/nodevenv/public_html/sukadracin.online/20/lib/node_modules/mongoose/lib/drivers/node-mongodb-native/collection.js:131:25)
+    at listOnTimeout (node:internal/timers:581:17)
+    at process.processTimers (node:internal/timers:519:7)
+MongooseError: Operation `settings.findOne()` buffering timed out after 10000ms
+    at Timeout._onTimeout (/home/carq8317/nodevenv/public_html/sukadracin.online/20/lib/node_modules/mongoose/lib/drivers/node-mongodb-native/collection.js:131:25)
+    at listOnTimeout (node:internal/timers:581:17)
+    at process.processTimers (node:internal/timers:519:7)
+MongooseError: Operation `settings.findOne()` buffering timed out after 10000ms
+    at Timeout._onTimeout (/home/carq8317/nodevenv/public_html/sukadracin.online/20/lib/node_modules/mongoose/lib/drivers/node-mongodb-native/collection.js:131:25)
+    at listOnTimeout (node:internal/timers:581:17)
+    at process.processTimers (node:internal/timers:519:7)
+MongooseError: Operation `settings.findOne()` buffering timed out after 10000ms
+    at Timeout._onTimeout (/home/carq8317/nodevenv/public_html/sukadracin.online/20/lib/node_modules/mongoose/lib/drivers/node-mongodb-native/collection.js:131:25)
+    at listOnTimeout (node:internal/timers:581:17)
+    at process.processTimers (node:internal/timers:519:7)
+MongooseError: Operation `settings.findOne()` buffering timed out after 10000ms
+    at Timeout._onTimeout (/home/carq8317/nodevenv/public_html/sukadracin.online/20/lib/node_modules/mongoose/lib/drivers/node-mongodb-native/collection.js:131:25)
+    at listOnTimeout (node:internal/timers:581:17)
+    at process.processTimers (node:internal/timers:519:7)
+MongooseError: Operation `settings.findOne()` buffering timed out after 10000ms
+    at Timeout._onTimeout (/home/carq8317/nodevenv/public_html/sukadracin.online/20/lib/node_modules/mongoose/lib/drivers/node-mongodb-native/collection.js:131:25)
+    at listOnTimeout (node:internal/timers:581:17)
+    at process.processTimers (node:internal/timers:519:7)
+MongooseError: Operation `settings.findOne()` buffering timed out after 10000ms
+    at Timeout._onTimeout (/home/carq8317/nodevenv/public_html/sukadracin.online/20/lib/node_modules/mongoose/lib/drivers/node-mongodb-native/collection.js:131:25)
+    at listOnTimeout (node:internal/timers:581:17)
+    at process.processTimers (node:internal/timers:519:7)
+MongooseError: Operation `settings.findOne()` buffering timed out after 10000ms
+    at Timeout._onTimeout (/home/carq8317/nodevenv/public_html/sukadracin.online/20/lib/node_modules/mongoose/lib/drivers/node-mongodb-native/collection.js:131:25)
+    at listOnTimeout (node:internal/timers:581:17)
+    at process.processTimers (node:internal/timers:519:7)
+MongooseError: Operation `settings.findOne()` buffering timed out after 10000ms
+    at Timeout._onTimeout (/home/carq8317/nodevenv/public_html/sukadracin.online/20/lib/node_modules/mongoose/lib/drivers/node-mongodb-native/collection.js:131:25)
+    at listOnTimeout (node:internal/timers:581:17)
+    at process.processTimers (node:internal/timers:519:7)
+MongooseError: Operation `settings.findOne()` buffering timed out after 10000ms
+    at Timeout._onTimeout (/home/carq8317/nodevenv/public_html/sukadracin.online/20/lib/node_modules/mongoose/lib/drivers/node-mongodb-native/collection.js:131:25)
+    at listOnTimeout (node:internal/timers:581:17)
+    at process.processTimers (node:internal/timers:519:7)
+MongooseError: Operation `settings.findOne()` buffering timed out after 10000ms
+    at Timeout._onTimeout (/home/carq8317/nodevenv/public_html/sukadracin.online/20/lib/node_modules/mongoose/lib/drivers/node-mongodb-native/collection.js:131:25)
+    at listOnTimeout (node:internal/timers:581:17)
+    at process.processTimers (node:internal/timers:519:7)
+MongooseError: Operation `settings.findOne()` buffering timed out after 10000ms
+    at Timeout._onTimeout (/home/carq8317/nodevenv/public_html/sukadracin.online/20/lib/node_modules/mongoose/lib/drivers/node-mongodb-native/collection.js:131:25)
+    at listOnTimeout (node:internal/timers:581:17)
+    at process.processTimers (node:internal/timers:519:7)
+MongooseError: Operation `settings.findOne()` buffering timed out after 10000ms
+    at Timeout._onTimeout (/home/carq8317/nodevenv/public_html/sukadracin.online/20/lib/node_modules/mongoose/lib/drivers/node-mongodb-native/collection.js:131:25)
+    at listOnTimeout (node:internal/timers:581:17)
+    at process.processTimers (node:internal/timers:519:7)
+MongooseError: Operation `settings.findOne()` buffering timed out after 10000ms
+    at Timeout._onTimeout (/home/carq8317/nodevenv/public_html/sukadracin.online/20/lib/node_modules/mongoose/lib/drivers/node-mongodb-native/collection.js:131:25)
+    at listOnTimeout (node:internal/timers:581:17)
+    at process.processTimers (node:internal/timers:519:7)
+MongooseError: Operation `settings.findOne()` buffering timed out after 10000ms
+    at Timeout._onTimeout (/home/carq8317/nodevenv/public_html/sukadracin.online/20/lib/node_modules/mongoose/lib/drivers/node-mongodb-native/collection.js:131:25)
+    at listOnTimeout (node:internal/timers:581:17)
+    at process.processTimers (node:internal/timers:519:7)
+MongooseError: Operation `settings.findOne()` buffering timed out after 10000ms
+    at Timeout._onTimeout (/home/carq8317/nodevenv/public_html/sukadracin.online/20/lib/node_modules/mongoose/lib/drivers/node-mongodb-native/collection.js:131:25)
+    at listOnTimeout (node:internal/timers:581:17)
+    at process.processTimers (node:internal/timers:519:7)
+MongooseError: Operation `settings.findOne()` buffering timed out after 10000ms
+    at Timeout._onTimeout (/home/carq8317/nodevenv/public_html/sukadracin.online/20/lib/node_modules/mongoose/lib/drivers/node-mongodb-native/collection.js:131:25)
+    at listOnTimeout (node:internal/timers:581:17)
+    at process.processTimers (node:internal/timers:519:7)
+MongooseError: Operation `settings.findOne()` buffering timed out after 10000ms
+    at Timeout._onTimeout (/home/carq8317/nodevenv/public_html/sukadracin.online/20/lib/node_modules/mongoose/lib/drivers/node-mongodb-native/collection.js:131:25)
+    at listOnTimeout (node:internal/timers:581:17)
+    at process.processTimers (node:internal/timers:519:7)
+MongooseError: Operation `settings.findOne()` buffering timed out after 10000ms
+    at Timeout._onTimeout (/home/carq8317/nodevenv/public_html/sukadracin.online/20/lib/node_modules/mongoose/lib/drivers/node-mongodb-native/collection.js:131:25)
+    at listOnTimeout (node:internal/timers:581:17)
+    at process.processTimers (node:internal/timers:519:7)
+MongooseError: Operation `settings.findOne()` buffering timed out after 10000ms
+    at Timeout._onTimeout (/home/carq8317/nodevenv/public_html/sukadracin.online/20/lib/node_modules/mongoose/lib/drivers/node-mongodb-native/collection.js:131:25)
+    at listOnTimeout (node:internal/timers:581:17)
+    at process.processTimers (node:internal/timers:519:7)
+MongooseError: Operation `settings.findOne()` buffering timed out after 10000ms
+    at Timeout._onTimeout (/home/carq8317/nodevenv/public_html/sukadracin.online/20/lib/node_modules/mongoose/lib/drivers/node-mongodb-native/collection.js:131:25)
+    at listOnTimeout (node:internal/timers:581:17)
+    at process.processTimers (node:internal/timers:519:7)
+MongooseError: Operation `settings.findOne()` buffering timed out after 10000ms
+    at Timeout._onTimeout (/home/carq8317/nodevenv/public_html/sukadracin.online/20/lib/node_modules/mongoose/lib/drivers/node-mongodb-native/collection.js:131:25)
+    at listOnTimeout (node:internal/timers:581:17)
+    at process.processTimers (node:internal/timers:519:7)
+MongooseError: Operation `settings.findOne()` buffering timed out after 10000ms
+    at Timeout._onTimeout (/home/carq8317/nodevenv/public_html/sukadracin.online/20/lib/node_modules/mongoose/lib/drivers/node-mongodb-native/collection.js:131:25)
+    at listOnTimeout (node:internal/timers:581:17)
+    at process.processTimers (node:internal/timers:519:7)
+MongooseError: Operation `settings.findOne()` buffering timed out after 10000ms
+    at Timeout._onTimeout (/home/carq8317/nodevenv/public_html/sukadracin.online/20/lib/node_modules/mongoose/lib/drivers/node-mongodb-native/collection.js:131:25)
+    at listOnTimeout (node:internal/timers:581:17)
+    at process.processTimers (node:internal/timers:519:7)
+MongooseError: Operation `settings.findOne()` buffering timed out after 10000ms
+    at Timeout._onTimeout (/home/carq8317/nodevenv/public_html/sukadracin.online/20/lib/node_modules/mongoose/lib/drivers/node-mongodb-native/collection.js:131:25)
+    at listOnTimeout (node:internal/timers:581:17)
+    at process.processTimers (node:internal/timers:519:7)
+MongooseError: Operation `settings.findOne()` buffering timed out after 10000ms
+    at Timeout._onTimeout (/home/carq8317/nodevenv/public_html/sukadracin.online/20/lib/node_modules/mongoose/lib/drivers/node-mongodb-native/collection.js:131:25)
+    at listOnTimeout (node:internal/timers:581:17)
+    at process.processTimers (node:internal/timers:519:7)
+MongooseError: Operation `settings.findOne()` buffering timed out after 10000ms
+    at Timeout._onTimeout (/home/carq8317/nodevenv/public_html/sukadracin.online/20/lib/node_modules/mongoose/lib/drivers/node-mongodb-native/collection.js:131:25)
+    at listOnTimeout (node:internal/timers:581:17)
+    at process.processTimers (node:internal/timers:519:7)
+MongooseError: Operation `settings.findOne()` buffering timed out after 10000ms
+    at Timeout._onTimeout (/home/carq8317/nodevenv/public_html/sukadracin.online/20/lib/node_modules/mongoose/lib/drivers/node-mongodb-native/collection.js:131:25)
+    at listOnTimeout (node:internal/timers:581:17)
+    at process.processTimers (node:internal/timers:519:7)
+MongooseError: Operation `settings.findOne()` buffering timed out after 10000ms
+    at Timeout._onTimeout (/home/carq8317/nodevenv/public_html/sukadracin.online/20/lib/node_modules/mongoose/lib/drivers/node-mongodb-native/collection.js:131:25)
+    at listOnTimeout (node:internal/timers:581:17)
+    at process.processTimers (node:internal/timers:519:7)
+MongooseError: Operation `settings.findOne()` buffering timed out after 10000ms
+    at Timeout._onTimeout (/home/carq8317/nodevenv/public_html/sukadracin.online/20/lib/node_modules/mongoose/lib/drivers/node-mongodb-native/collection.js:131:25)
+    at listOnTimeout (node:internal/timers:581:17)
+    at process.processTimers (node:internal/timers:519:7)
+MongooseError: Operation `settings.findOne()` buffering timed out after 10000ms
+    at Timeout._onTimeout (/home/carq8317/nodevenv/public_html/sukadracin.online/20/lib/node_modules/mongoose/lib/drivers/node-mongodb-native/collection.js:131:25)
+    at listOnTimeout (node:internal/timers:581:17)
+    at process.processTimers (node:internal/timers:519:7)
+MongooseError: Operation `settings.findOne()` buffering timed out after 10000ms
+    at Timeout._onTimeout (/home/carq8317/nodevenv/public_html/sukadracin.online/20/lib/node_modules/mongoose/lib/drivers/node-mongodb-native/collection.js:131:25)
+    at listOnTimeout (node:internal/timers:581:17)
+    at process.processTimers (node:internal/timers:519:7)
+MongooseError: Operation `settings.findOne()` buffering timed out after 10000ms
+    at Timeout._onTimeout (/home/carq8317/nodevenv/public_html/sukadracin.online/20/lib/node_modules/mongoose/lib/drivers/node-mongodb-native/collection.js:131:25)
+    at listOnTimeout (node:internal/timers:581:17)
+    at process.processTimers (node:internal/timers:519:7)
+MongooseError: Operation `settings.findOne()` buffering timed out after 10000ms
+    at Timeout._onTimeout (/home/carq8317/nodevenv/public_html/sukadracin.online/20/lib/node_modules/mongoose/lib/drivers/node-mongodb-native/collection.js:131:25)
+    at listOnTimeout (node:internal/timers:581:17)
+    at process.processTimers (node:internal/timers:519:7)
+MongooseError: Operation `settings.findOne()` buffering timed out after 10000ms
+    at Timeout._onTimeout (/home/carq8317/nodevenv/public_html/sukadracin.online/20/lib/node_modules/mongoose/lib/drivers/node-mongodb-native/collection.js:131:25)
+    at listOnTimeout (node:internal/timers:581:17)
+    at process.processTimers (node:internal/timers:519:7)
+MongooseError: Operation `settings.findOne()` buffering timed out after 10000ms
+    at Timeout._onTimeout (/home/carq8317/nodevenv/public_html/sukadracin.online/20/lib/node_modules/mongoose/lib/drivers/node-mongodb-native/collection.js:131:25)
+    at listOnTimeout (node:internal/timers:581:17)
+    at process.processTimers (node:internal/timers:519:7)
+MongooseError: Operation `settings.findOne()` buffering timed out after 10000ms
+    at Timeout._onTimeout (/home/carq8317/nodevenv/public_html/sukadracin.online/20/lib/node_modules/mongoose/lib/drivers/node-mongodb-native/collection.js:131:25)
+    at listOnTimeout (node:internal/timers:581:17)
+    at process.processTimers (node:internal/timers:519:7)
+MongooseError: Operation `settings.findOne()` buffering timed out after 10000ms
+    at Timeout._onTimeout (/home/carq8317/nodevenv/public_html/sukadracin.online/20/lib/node_modules/mongoose/lib/drivers/node-mongodb-native/collection.js:131:25)
+    at listOnTimeout (node:internal/timers:581:17)
+    at process.processTimers (node:internal/timers:519:7)
+MongooseError: Operation `settings.findOne()` buffering timed out after 10000ms
+    at Timeout._onTimeout (/home/carq8317/nodevenv/public_html/sukadracin.online/20/lib/node_modules/mongoose/lib/drivers/node-mongodb-native/collection.js:131:25)
+    at listOnTimeout (node:internal/timers:581:17)
+    at process.processTimers (node:internal/timers:519:7)
+MongooseError: Operation `settings.findOne()` buffering timed out after 10000ms
+    at Timeout._onTimeout (/home/carq8317/nodevenv/public_html/sukadracin.online/20/lib/node_modules/mongoose/lib/drivers/node-mongodb-native/collection.js:131:25)
+    at listOnTimeout (node:internal/timers:581:17)
+    at process.processTimers (node:internal/timers:519:7)
+MongooseError: Operation `settings.findOne()` buffering timed out after 10000ms
+    at Timeout._onTimeout (/home/carq8317/nodevenv/public_html/sukadracin.online/20/lib/node_modules/mongoose/lib/drivers/node-mongodb-native/collection.js:131:25)
+    at listOnTimeout (node:internal/timers:581:17)
+    at process.processTimers (node:internal/timers:519:7)
+MongooseError: Operation `settings.findOne()` buffering timed out after 10000ms
+    at Timeout._onTimeout (/home/carq8317/nodevenv/public_html/sukadracin.online/20/lib/node_modules/mongoose/lib/drivers/node-mongodb-native/collection.js:131:25)
+    at listOnTimeout (node:internal/timers:581:17)
+    at process.processTimers (node:internal/timers:519:7)
+MongooseError: Operation `settings.findOne()` buffering timed out after 10000ms
+    at Timeout._onTimeout (/home/carq8317/nodevenv/public_html/sukadracin.online/20/lib/node_modules/mongoose/lib/drivers/node-mongodb-native/collection.js:131:25)
+    at listOnTimeout (node:internal/timers:581:17)
+    at process.processTimers (node:internal/timers:519:7)
+MongooseError: Operation `settings.findOne()` buffering timed out after 10000ms
+    at Timeout._onTimeout (/home/carq8317/nodevenv/public_html/sukadracin.online/20/lib/node_modules/mongoose/lib/drivers/node-mongodb-native/collection.js:131:25)
+    at listOnTimeout (node:internal/timers:581:17)
+    at process.processTimers (node:internal/timers:519:7)
+MongooseError: Operation `settings.findOne()` buffering timed out after 10000ms
+    at Timeout._onTimeout (/home/carq8317/nodevenv/public_html/sukadracin.online/20/lib/node_modules/mongoose/lib/drivers/node-mongodb-native/collection.js:131:25)
+    at listOnTimeout (node:internal/timers:581:17)
+    at process.processTimers (node:internal/timers:519:7)
+MongooseError: Operation `settings.findOne()` buffering timed out after 10000ms
+    at Timeout._onTimeout (/home/carq8317/nodevenv/public_html/sukadracin.online/20/lib/node_modules/mongoose/lib/drivers/node-mongodb-native/collection.js:131:25)
+    at listOnTimeout (node:internal/timers:581:17)
+    at process.processTimers (node:internal/timers:519:7)
+MongooseError: Operation `settings.findOne()` buffering timed out after 10000ms
+    at Timeout._onTimeout (/home/carq8317/nodevenv/public_html/sukadracin.online/20/lib/node_modules/mongoose/lib/drivers/node-mongodb-native/collection.js:131:25)
+    at listOnTimeout (node:internal/timers:581:17)
+    at process.processTimers (node:internal/timers:519:7)
+MongooseError: Operation `settings.findOne()` buffering timed out after 10000ms
+    at Timeout._onTimeout (/home/carq8317/nodevenv/public_html/sukadracin.online/20/lib/node_modules/mongoose/lib/drivers/node-mongodb-native/collection.js:131:25)
+    at listOnTimeout (node:internal/timers:581:17)
+    at process.processTimers (node:internal/timers:519:7)
+❌ Gagal Konek MongoDB: MongooseServerSelectionError: Could not connect to any servers in your MongoDB Atlas cluster. One common reason is that you're trying to access the database from an IP that isn't whitelisted. Make sure your current IP address is on your Atlas cluster's IP whitelist: https://www.mongodb.com/docs/atlas/security-whitelist/
+    at _handleConnectionErrors (/home/carq8317/nodevenv/public_html/sukadracin.online/20/lib/node_modules/mongoose/lib/connection.js:1169:11)
+    at NativeConnection.openUri (/home/carq8317/nodevenv/public_html/sukadracin.online/20/lib/node_modules/mongoose/lib/connection.js:1100:11)
+    at async connectDB (file:///home/carq8317/public_html/sukadracin.online/lib/db.js:9:9) {
+  errorLabelSet: Set(0) {},
+  reason: TopologyDescription {
+    type: 'ReplicaSetNoPrimary',
+    servers: Map(3) {
+      'ac-dssy8qo-shard-00-01.2wwsnmc.mongodb.net:27017' => [ServerDescription],
+      'ac-dssy8qo-shard-00-02.2wwsnmc.mongodb.net:27017' => [ServerDescription],
+      'ac-dssy8qo-shard-00-00.2wwsnmc.mongodb.net:27017' => [ServerDescription]
+    },
+    stale: false,
+    compatible: true,
+    heartbeatFrequencyMS: 10000,
+    localThresholdMS: 15,
+    setName: 'atlas-17klgo-shard-0',
+    maxElectionId: null,
+    maxSetVersion: null,
+    commonWireVersion: 0,
+    logicalSessionTimeoutMinutes: null
+  },
+  code: undefined,
+  cause: TopologyDescription {
+    type: 'ReplicaSetNoPrimary',
+    servers: Map(3) {
+      'ac-dssy8qo-shard-00-01.2wwsnmc.mongodb.net:27017' => [ServerDescription],
+      'ac-dssy8qo-shard-00-02.2wwsnmc.mongodb.net:27017' => [ServerDescription],
+      'ac-dssy8qo-shard-00-00.2wwsnmc.mongodb.net:27017' => [ServerDescription]
+    },
+    stale: false,
+    compatible: true,
+    heartbeatFrequencyMS: 10000,
+    localThresholdMS: 15,
+    setName: 'atlas-17klgo-shard-0',
+    maxElectionId: null,
+    maxSetVersion: null,
+    commonWireVersion: 0,
+    logicalSessionTimeoutMinutes: null
+  }
+}
+MongooseError: Operation `settings.findOne()` buffering timed out after 10000ms
+    at Timeout._onTimeout (/home/carq8317/nodevenv/public_html/sukadracin.online/20/lib/node_modules/mongoose/lib/drivers/node-mongodb-native/collection.js:131:25)
+    at listOnTimeout (node:internal/timers:581:17)
+    at process.processTimers (node:internal/timers:519:7)
+MongooseError: Operation `settings.findOne()` buffering timed out after 10000ms
+    at Timeout._onTimeout (/home/carq8317/nodevenv/public_html/sukadracin.online/20/lib/node_modules/mongoose/lib/drivers/node-mongodb-native/collection.js:131:25)
+    at listOnTimeout (node:internal/timers:581:17)
+    at process.processTimers (node:internal/timers:519:7)
+MongooseError: Operation `settings.findOne()` buffering timed out after 10000ms
+    at Timeout._onTimeout (/home/carq8317/nodevenv/public_html/sukadracin.online/20/lib/node_modules/mongoose/lib/drivers/node-mongodb-native/collection.js:131:25)
+    at listOnTimeout (node:internal/timers:581:17)
+    at process.processTimers (node:internal/timers:519:7)
+❌ Gagal Konek MongoDB: MongooseServerSelectionError: Could not connect to any servers in your MongoDB Atlas cluster. One common reason is that you're trying to access the database from an IP that isn't whitelisted. Make sure your current IP address is on your Atlas cluster's IP whitelist: https://www.mongodb.com/docs/atlas/security-whitelist/
+    at _handleConnectionErrors (/home/carq8317/nodevenv/public_html/sukadracin.online/20/lib/node_modules/mongoose/lib/connection.js:1169:11)
+    at NativeConnection.openUri (/home/carq8317/nodevenv/public_html/sukadracin.online/20/lib/node_modules/mongoose/lib/connection.js:1100:11)
+    at async connectDB (file:///home/carq8317/public_html/sukadracin.online/lib/db.js:9:9) {
+  errorLabelSet: Set(0) {},
+  reason: TopologyDescription {
+    type: 'ReplicaSetNoPrimary',
+    servers: Map(3) {
+      'ac-dssy8qo-shard-00-01.2wwsnmc.mongodb.net:27017' => [ServerDescription],
+      'ac-dssy8qo-shard-00-02.2wwsnmc.mongodb.net:27017' => [ServerDescription],
+      'ac-dssy8qo-shard-00-00.2wwsnmc.mongodb.net:27017' => [ServerDescription]
+    },
+    stale: false,
+    compatible: true,
+    heartbeatFrequencyMS: 10000,
+    localThresholdMS: 15,
+    setName: 'atlas-17klgo-shard-0',
+    maxElectionId: null,
+    maxSetVersion: null,
+    commonWireVersion: 0,
+    logicalSessionTimeoutMinutes: null
+  },
+  code: undefined,
+  cause: TopologyDescription {
+    type: 'ReplicaSetNoPrimary',
+    servers: Map(3) {
+      'ac-dssy8qo-shard-00-01.2wwsnmc.mongodb.net:27017' => [ServerDescription],
+      'ac-dssy8qo-shard-00-02.2wwsnmc.mongodb.net:27017' => [ServerDescription],
+      'ac-dssy8qo-shard-00-00.2wwsnmc.mongodb.net:27017' => [ServerDescription]
+    },
+    stale: false,
+    compatible: true,
+    heartbeatFrequencyMS: 10000,
+    localThresholdMS: 15,
+    setName: 'atlas-17klgo-shard-0',
+    maxElectionId: null,
+    maxSetVersion: null,
+    commonWireVersion: 0,
+    logicalSessionTimeoutMinutes: null
+  }
+}
+MongooseError: Operation `settings.findOne()` buffering timed out after 10000ms
+    at Timeout._onTimeout (/home/carq8317/nodevenv/public_html/sukadracin.online/20/lib/node_modules/mongoose/lib/drivers/node-mongodb-native/collection.js:131:25)
+    at listOnTimeout (node:internal/timers:581:17)
+    at process.processTimers (node:internal/timers:519:7)
+MongooseError: Operation `settings.findOne()` buffering timed out after 10000ms
+    at Timeout._onTimeout (/home/carq8317/nodevenv/public_html/sukadracin.online/20/lib/node_modules/mongoose/lib/drivers/node-mongodb-native/collection.js:131:25)
+    at listOnTimeout (node:internal/timers:581:17)
+    at process.processTimers (node:internal/timers:519:7)
