@@ -6,7 +6,6 @@
     <title>Loading...</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* --- CORE STYLES --- */
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
         .custom-scroll::-webkit-scrollbar { width: 4px; }
@@ -14,26 +13,18 @@
         .custom-scroll::-webkit-scrollbar-thumb { background-color: rgba(255,255,255,0.3); border-radius: 10px; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         .card-anim { animation: fadeIn 0.4s ease-out forwards; }
-        
-        /* --- PLAYER UI TRANSITIONS --- */
         .player-ui { transition: opacity 0.3s ease, transform 0.3s ease; }
         .ui-hidden { opacity: 0 !important; pointer-events: none; }
         .drawer-closed { transform: translateY(100%); }
         .drawer-open { transform: translateY(0); }
-        
-        /* --- SUBTITLES --- */
         video::cue {
-            background-color: rgba(0, 0, 0, 0.6) !important;
-            color: #ffffff !important;
-            font-family: system-ui, -apple-system, sans-serif !important;
-            font-weight: 600 !important;
+            background-color: rgba(0, 0, 0, 0.6) !important; color: #ffffff !important;
+            font-family: system-ui, -apple-system, sans-serif !important; font-weight: 600 !important;
             text-shadow: 0px 1px 3px rgba(0,0,0,0.9) !important;
-            font-size: clamp(16px, 5vw, 24px) !important;
-            line-height: 1.4 !important;
+            font-size: clamp(16px, 5vw, 24px) !important; line-height: 1.4 !important;
             transform: none !important; 
         }
         video::-webkit-media-text-track-display { overflow: visible !important; backdrop-filter: none; }
-        video::-webkit-media-text-track-container { overflow: visible !important; }
     </style>
 </head>
 <body class="bg-[#0a0a0a] text-gray-100 font-sans antialiased flex flex-col min-h-screen">
@@ -41,28 +32,23 @@
     <nav class="fixed w-full z-50 bg-black/90 backdrop-blur-md border-b border-white/5 shadow-lg">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16">
-                
                 <div class="flex items-center gap-3 shrink-0">
                     <img id="navLogoImg" src="" class="w-8 h-8 rounded-lg hidden object-contain">
                     <span id="navSiteName" class="font-bold text-gray-200 text-lg tracking-tight">StreamHub</span>
                 </div>
-
                 <div class="flex-1 max-w-lg mx-4 hidden md:block">
                     <div class="relative group">
                         <input type="text" id="searchInput" placeholder="Cari drama..." class="w-full bg-[#1a1a1a] text-gray-200 rounded-full py-2 px-5 pl-11 focus:outline-none focus:ring-2 focus:ring-red-600 focus:bg-[#202020] transition-all border border-transparent group-hover:border-white/10 placeholder-gray-500">
                         <svg class="w-5 h-5 text-gray-400 absolute left-4 top-2.5 group-focus-within:text-red-500 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0"></path></svg>
                     </div>
                 </div>
-
                 <div class="flex items-center gap-2 md:gap-3">
-                    
                     <div class="relative z-50">
                         <button onclick="toggleProviderMenu()" class="flex items-center gap-2 bg-[#1a1a1a] hover:bg-[#252525] border border-white/10 px-3 py-1.5 rounded-full transition-all group">
                             <div id="currentProviderIcon" class="w-6 h-6 rounded-full bg-red-600 flex items-center justify-center text-[10px] font-bold text-white overflow-hidden shrink-0">NS</div>
                             <span id="currentProviderName" class="font-bold text-gray-200 group-hover:text-white hidden sm:block text-sm">NetShort</span>
                             <svg class="w-4 h-4 text-gray-500 group-hover:text-white transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                         </button>
-                        
                         <div id="providerDropdown" class="hidden absolute top-full right-0 mt-3 w-72 bg-[#1a1a1a] border border-white/10 rounded-2xl shadow-2xl overflow-hidden flex-col z-[100] origin-top-right ring-1 ring-white/5">
                             <div class="px-5 py-3 border-b border-white/5 bg-black/40"><span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Ganti Server</span></div>
                             <button onclick="switchProvider('netshort')" class="flex items-start gap-4 px-5 py-4 hover:bg-white/5 w-full text-left transition-all border-b border-white/5 group">
@@ -75,33 +61,17 @@
                             </button>
                         </div>
                     </div>
-
-                    <button onclick="toggleMobileSearch()" class="md:hidden text-gray-400 hover:text-white p-2 rounded-full transition bg-white/5 border border-white/5">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0"></path></svg>
-                    </button>
-
-                    <button onclick="clearHistory()" class="text-xs text-gray-500 hover:text-red-500 transition px-2 flex items-center gap-1" title="Hapus Riwayat">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                    </button>
+                    <button onclick="toggleMobileSearch()" class="md:hidden text-gray-400 hover:text-white p-2 rounded-full transition bg-white/5 border border-white/5"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0"></path></svg></button>
+                    <button onclick="clearHistory()" class="text-xs text-gray-500 hover:text-red-500 transition px-2 flex items-center gap-1" title="Hapus Riwayat"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg></button>
                 </div>
             </div>
         </div>
-
-        <div id="mobileSearchContainer" class="hidden md:hidden bg-[#151515] border-b border-white/10 px-4 py-3 absolute w-full top-16 left-0 shadow-2xl animate-fade-in">
-            <div class="relative">
-                <input type="text" id="mobileSearchInput" placeholder="Ketik judul drama..." class="w-full bg-[#0a0a0a] text-white rounded-lg py-2.5 px-4 pl-10 border border-white/10 focus:outline-none focus:border-red-600 transition-colors">
-                <svg class="w-5 h-5 text-gray-500 absolute left-3 top-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0"></path></svg>
-            </div>
-        </div>
+        <div id="mobileSearchContainer" class="hidden md:hidden bg-[#151515] border-b border-white/10 px-4 py-3 absolute w-full top-16 left-0 shadow-2xl animate-fade-in"><div class="relative"><input type="text" id="mobileSearchInput" placeholder="Ketik judul drama..." class="w-full bg-[#0a0a0a] text-white rounded-lg py-2.5 px-4 pl-10 border border-white/10 focus:outline-none focus:border-red-600 transition-colors"><svg class="w-5 h-5 text-gray-500 absolute left-3 top-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0"></path></svg></div></div>
     </nav>
 
     <main class="pt-20 pb-12 px-4 max-w-[1600px] mx-auto w-full relative flex-grow" id="mainContainer">
+        <div id="historySection" class="hidden mb-8 animate-fade-in"><div class="flex items-center gap-2 mb-4 px-1"><h2 class="text-lg font-bold text-white">Lanjutkan Menonton</h2></div><div id="historyList" class="flex gap-4 overflow-x-auto no-scrollbar pb-2 snap-x"></div></div>
         
-        <div id="historySection" class="hidden mb-8 animate-fade-in">
-            <div class="flex items-center gap-2 mb-4 px-1"><h2 class="text-lg font-bold text-white">Lanjutkan Menonton</h2></div>
-            <div id="historyList" class="flex gap-4 overflow-x-auto no-scrollbar pb-2 snap-x"></div>
-        </div>
-
         <div class="flex overflow-x-auto gap-3 py-4 mb-2 no-scrollbar sticky top-16 z-40 bg-[#0a0a0a]/95 backdrop-blur-md border-b border-white/5 items-center">
             <button onclick="changeTab('all')" class="tab-btn active px-4 py-1.5 rounded-full text-sm font-medium transition-all bg-red-600 text-white border border-red-600 shadow-[0_0_10px_rgba(220,38,38,0.4)]">🔥 Trending</button>
             <button onclick="changeTab('new')" class="tab-btn px-4 py-1.5 rounded-full text-sm font-medium transition-all bg-[#1a1a1a] text-gray-400 border border-white/10">🆕 Terbaru</button>
@@ -112,12 +82,7 @@
 
         <div id="loading" class="flex flex-col items-center justify-center mt-20 space-y-4"><div class="animate-spin rounded-full h-12 w-12 border-4 border-[#333] border-t-red-600"></div><p class="text-gray-400 font-medium animate-pulse">Menghubungkan ke <span id="loadingProviderName">Server</span>...</p></div>
         <div id="contentArea" class="hidden min-h-[50vh]"></div>
-        
-        <div id="pagination" class="hidden flex justify-center items-center gap-2 mt-12 py-8 border-t border-white/5">
-            <button onclick="changePage(currentPage - 1)" id="prevBtn" class="px-4 py-2 rounded-lg bg-[#1a1a1a] text-white hover:bg-red-600 disabled:opacity-50 transition">← Prev</button>
-            <div id="pageNumbers" class="flex gap-2"></div>
-            <button onclick="changePage(currentPage + 1)" id="nextBtn" class="px-4 py-2 rounded-lg bg-[#1a1a1a] text-white hover:bg-red-600 transition">Next →</button>
-        </div>
+        <div id="pagination" class="hidden flex justify-center items-center gap-2 mt-12 py-8 border-t border-white/5"><button onclick="changePage(currentPage - 1)" id="prevBtn" class="px-4 py-2 rounded-lg bg-[#1a1a1a] text-white hover:bg-red-600 disabled:opacity-50 transition">← Prev</button><div id="pageNumbers" class="flex gap-2"></div><button onclick="changePage(currentPage + 1)" id="nextBtn" class="px-4 py-2 rounded-lg bg-[#1a1a1a] text-white hover:bg-red-600 transition">Next →</button></div>
     </main>
 
     <footer class="bg-black text-white py-12 border-t border-gray-800 mt-auto">
@@ -135,60 +100,34 @@
     <div id="infoModal" class="fixed inset-0 z-[100] bg-black/95 md:bg-black/80 hidden flex items-end md:items-center justify-center backdrop-blur-sm transition-opacity duration-300 opacity-0 md:px-4">
         <div class="bg-[#151515] w-full h-full md:h-auto md:max-h-[90vh] md:max-w-4xl md:rounded-2xl overflow-hidden shadow-2xl border-t md:border border-white/10 flex flex-col md:flex-row relative">
             <button onclick="closeInfoModal()" class="absolute top-4 right-4 z-20 text-gray-400 hover:text-white bg-black/50 p-2 rounded-full transition md:bg-white/5 hover:bg-white/10"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button>
-            <div class="w-full md:w-1/3 relative h-56 md:h-auto shrink-0">
-                <img id="infoCover" src="" class="w-full h-full object-cover">
-                <div class="absolute inset-0 bg-gradient-to-t from-[#151515] via-[#151515]/60 to-transparent md:from-transparent md:via-transparent opacity-100"></div>
-            </div>
+            <div class="w-full md:w-1/3 relative h-56 md:h-auto shrink-0"><img id="infoCover" src="" class="w-full h-full object-cover"><div class="absolute inset-0 bg-gradient-to-t from-[#151515] via-[#151515]/60 to-transparent md:from-transparent md:via-transparent opacity-100"></div></div>
             <div class="flex-1 flex flex-col overflow-hidden relative h-full">
-                <div class="flex-1 overflow-y-auto custom-scroll p-5 md:p-8">
-                    <div class="flex gap-2 mb-4 mt-2 md:mt-0"><span id="infoProviderBadge" class="bg-red-600 text-white text-xs font-bold px-2 py-1 rounded shadow-sm">NETSHORT</span><span id="infoEpsBadge" class="bg-gray-700 text-gray-200 text-xs font-bold px-2 py-1 rounded border border-gray-600">0 Episode</span></div>
-                    <h2 id="infoTitle" class="text-2xl md:text-4xl font-extrabold text-white mb-3 leading-tight">Judul Drama</h2>
-                    <div id="lastWatchedInfo" class="hidden mb-6 flex items-center gap-2 text-yellow-500 bg-yellow-900/20 px-3 py-2 rounded-lg border border-yellow-700/30 w-fit"><span class="text-sm font-semibold">Terakhir: Episode <span id="lastEpNum">1</span></span></div>
-                    <div class="mb-4"><h3 class="text-sm font-bold text-gray-500 uppercase tracking-wider mb-2">Sinopsis</h3><p id="infoSynopsis" class="text-gray-300 leading-relaxed text-sm md:text-base line-clamp-[10] md:line-clamp-none">Deskripsi...</p></div>
-                </div>
-                <div class="p-4 md:p-6 border-t border-white/5 flex gap-3 mt-auto bg-[#151515] shrink-0 pb-8 md:pb-6">
-                    <button id="btnPlayMain" onclick="startPlayer(0)" class="flex-1 bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-4 rounded-xl flex items-center justify-center gap-2 transition transform hover:scale-[1.02] shadow-[0_0_20px_rgba(220,38,38,0.4)] text-sm md:text-base">Tonton Sekarang</button>
-                    <button onclick="closeInfoModal()" class="px-5 py-3 rounded-xl border border-white/10 hover:bg-white/5 text-gray-300 font-semibold transition text-sm md:text-base hidden md:block">Tutup</button>
-                </div>
+                <div class="flex-1 overflow-y-auto custom-scroll p-5 md:p-8"><div class="flex gap-2 mb-4 mt-2 md:mt-0"><span id="infoProviderBadge" class="bg-red-600 text-white text-xs font-bold px-2 py-1 rounded shadow-sm">NETSHORT</span><span id="infoEpsBadge" class="bg-gray-700 text-gray-200 text-xs font-bold px-2 py-1 rounded border border-gray-600">0 Episode</span></div><h2 id="infoTitle" class="text-2xl md:text-4xl font-extrabold text-white mb-3 leading-tight">Judul Drama</h2><div id="lastWatchedInfo" class="hidden mb-6 flex items-center gap-2 text-yellow-500 bg-yellow-900/20 px-3 py-2 rounded-lg border border-yellow-700/30 w-fit"><span class="text-sm font-semibold">Terakhir: Episode <span id="lastEpNum">1</span></span></div><div class="mb-4"><h3 class="text-sm font-bold text-gray-500 uppercase tracking-wider mb-2">Sinopsis</h3><p id="infoSynopsis" class="text-gray-300 leading-relaxed text-sm md:text-base line-clamp-[10] md:line-clamp-none">Deskripsi...</p></div></div>
+                <div class="p-4 md:p-6 border-t border-white/5 flex gap-3 mt-auto bg-[#151515] shrink-0 pb-8 md:pb-6"><button id="btnPlayMain" onclick="startPlayer(0)" class="flex-1 bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-4 rounded-xl shadow-[0_0_20px_rgba(220,38,38,0.4)] text-sm md:text-base">Tonton Sekarang</button><button onclick="closeInfoModal()" class="px-5 py-3 rounded-xl border border-white/10 hover:bg-white/5 text-gray-300 font-semibold transition text-sm md:text-base hidden md:block">Tutup</button></div>
             </div>
         </div>
     </div>
 
     <div id="playerModal" class="fixed inset-0 z-[110] bg-black hidden transition-all duration-300 opacity-0 group select-none overflow-hidden font-sans">
-        <div class="absolute inset-0 flex items-center justify-center bg-black z-0">
-            <video id="mainVideo" controls crossorigin="anonymous" class="w-full h-full object-contain outline-none" playsinline controlsList="nodownload"></video>
-        </div>
-        <div id="playerTopUI" class="player-ui absolute top-0 left-0 right-0 p-4 flex justify-between items-start z-20 bg-gradient-to-b from-black/70 to-transparent pt-6">
-            <div class="flex items-center gap-2"><span id="subStatus" class="text-[10px] text-white/80 uppercase tracking-wider bg-black/40 border border-white/10 px-2 py-1 rounded-full backdrop-blur-md">SUB: CHECKING</span></div>
-            <button onclick="closePlayer()" class="text-white/80 hover:text-white bg-black/40 p-2 rounded-full transition backdrop-blur-md border border-white/10 hover:bg-black/60"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button>
-        </div>
-        <div id="playerRightUI" class="player-ui absolute right-4 bottom-36 z-20 flex flex-col items-center gap-6">
-            <button onclick="toggleEpisodeDrawer()" class="flex flex-col items-center gap-1 group">
-                <div class="w-12 h-12 bg-black/50 backdrop-blur-lg rounded-full flex items-center justify-center border border-white/20 group-hover:bg-red-600/80 transition-all shadow-lg">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-white"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" /></svg>
-                </div>
-                <span class="text-[10px] text-white font-medium drop-shadow-lg">Episode</span>
-            </button>
-        </div>
-        <div id="playerBottomUI" class="player-ui absolute bottom-0 left-0 right-0 p-6 z-20 bg-gradient-to-t from-black/90 via-black/50 to-transparent flex flex-col justify-end h-40 pointer-events-none">
-            <div class="pointer-events-auto mb-4"><h2 id="playerTitle" class="text-white font-bold text-xl lg:text-2xl drop-shadow-lg line-clamp-2 text-shadow-md leading-tight">Judul Drama</h2></div>
-        </div>
-        <div id="episodeDrawer" class="fixed inset-x-0 bottom-0 z-30 bg-[#1a1a1a] rounded-t-[2rem] max-h-[75vh] flex flex-col transition-transform duration-300 drawer-closed border-t border-white/10 shadow-[0_-10px_40px_rgba(0,0,0,0.5)] lg:static lg:w-96 lg:h-full lg:max-h-full lg:rounded-none lg:border-t-0 lg:border-l lg:transform-none">
-            <div class="p-4 flex flex-col gap-4 relative shrink-0 lg:bg-[#121212]">
-                <div class="w-12 h-1 bg-white/20 rounded-full mx-auto lg:hidden"></div>
-                <div class="flex justify-between items-center mt-2 lg:mt-0">
-                    <div class="flex items-center gap-3"><h3 class="font-bold text-white text-lg">Daftar Episode</h3><span class="text-xs bg-red-600 text-white px-2 py-0.5 rounded-full font-bold shadow-sm" id="totalEpBadge">0 Eps</span></div>
-                    <button onclick="toggleEpisodeDrawer()" class="lg:hidden p-2 bg-white/5 rounded-full hover:bg-white/10 transition"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-gray-300"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg></button>
-                </div>
-            </div>
-            <div id="episodeList" class="flex-1 overflow-y-auto p-4 grid grid-cols-5 gap-2 content-start custom-scroll pb-8 lg:bg-[#121212]"></div>
-        </div>
+        <div class="absolute inset-0 flex items-center justify-center bg-black z-0"><video id="mainVideo" controls crossorigin="anonymous" class="w-full h-full object-contain outline-none" playsinline controlsList="nodownload"></video></div>
+        <div id="playerTopUI" class="player-ui absolute top-0 left-0 right-0 p-4 flex justify-between items-start z-20 bg-gradient-to-b from-black/70 to-transparent pt-6"><div class="flex items-center gap-2"><span id="subStatus" class="text-[10px] text-white/80 uppercase tracking-wider bg-black/40 border border-white/10 px-2 py-1 rounded-full backdrop-blur-md">SUB: CHECKING</span></div><button onclick="closePlayer()" class="text-white/80 hover:text-white bg-black/40 p-2 rounded-full transition backdrop-blur-md border border-white/10 hover:bg-black/60"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button></div>
+        <div id="playerRightUI" class="player-ui absolute right-4 bottom-36 z-20 flex flex-col items-center gap-6"><button onclick="toggleEpisodeDrawer()" class="flex flex-col items-center gap-1 group"><div class="w-12 h-12 bg-black/50 backdrop-blur-lg rounded-full flex items-center justify-center border border-white/20 group-hover:bg-red-600/80 transition-all shadow-lg"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-white"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" /></svg></div><span class="text-[10px] text-white font-medium drop-shadow-lg">Episode</span></button></div>
+        <div id="playerBottomUI" class="player-ui absolute bottom-0 left-0 right-0 p-6 z-20 bg-gradient-to-t from-black/90 via-black/50 to-transparent flex flex-col justify-end h-40 pointer-events-none"><div class="pointer-events-auto mb-4"><h2 id="playerTitle" class="text-white font-bold text-xl lg:text-2xl drop-shadow-lg line-clamp-2 text-shadow-md leading-tight">Judul Drama</h2></div></div>
+        <div id="episodeDrawer" class="fixed inset-x-0 bottom-0 z-30 bg-[#1a1a1a] rounded-t-[2rem] max-h-[75vh] flex flex-col transition-transform duration-300 drawer-closed border-t border-white/10 shadow-[0_-10px_40px_rgba(0,0,0,0.5)] lg:static lg:w-96 lg:h-full lg:max-h-full lg:rounded-none lg:border-t-0 lg:border-l lg:transform-none"><div class="p-4 flex flex-col gap-4 relative shrink-0 lg:bg-[#121212]"><div class="w-12 h-1 bg-white/20 rounded-full mx-auto lg:hidden"></div><div class="flex justify-between items-center mt-2 lg:mt-0"><div class="flex items-center gap-3"><h3 class="font-bold text-white text-lg">Daftar Episode</h3><span class="text-xs bg-red-600 text-white px-2 py-0.5 rounded-full font-bold shadow-sm" id="totalEpBadge">0 Eps</span></div><button onclick="toggleEpisodeDrawer()" class="lg:hidden p-2 bg-white/5 rounded-full hover:bg-white/10 transition"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-gray-300"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg></button></div></div><div id="episodeList" class="flex-1 overflow-y-auto p-4 grid grid-cols-5 gap-2 content-start custom-scroll pb-8 lg:bg-[#121212]"></div></div>
     </div>
 
     <script>
         const PROVIDERS = { 
             'netshort': { name: 'NetShort', apiBase: '/api/netshort', listPath: '/api/netshort/foryou?page=', searchPath: '/api/netshort/search?query=', color: 'bg-gradient-to-br from-red-600 to-red-800', text: 'NS', theme: { badge: 'bg-red-600/90', tabActive: 'bg-red-600 border-red-600 shadow-[0_0_10px_rgba(220,38,38,0.4)]', spinner: 'border-t-red-600', hover: 'hover:bg-red-600', text: 'text-red-500' } }, 
-            'dramabox': { name: 'DramaBox', apiBase: '/api', listPath: '/api/home?size=20&page=', searchPath: '/api/search?page=1&q=', color: 'bg-gradient-to-br from-orange-500 to-orange-700', text: 'DB', theme: { badge: 'bg-orange-600/90', tabActive: 'bg-orange-600 border-orange-600 shadow-[0_0_10px_rgba(234,88,12,0.4)]', spinner: 'border-t-orange-600', hover: 'hover:bg-orange-600', text: 'text-orange-500' } } 
+            'dramabox': { 
+                name: 'DramaBox', 
+                // Menggunakan endpoint /api/dramabox sesuai routes/api.js Anda
+                listPath: '/api/dramabox/foryou?page=', 
+                searchPath: '/api/dramabox/search?query=', 
+                color: 'bg-gradient-to-br from-orange-500 to-orange-700', 
+                text: 'DB', 
+                theme: { badge: 'bg-orange-600/90', tabActive: 'bg-orange-600 border-orange-600 shadow-[0_0_10px_rgba(234,88,12,0.4)]', spinner: 'border-t-orange-600', hover: 'hover:bg-orange-600', text: 'text-orange-500' } 
+            } 
         };
         let activeProviderKey = 'netshort', currentPage = 1, currentTab = 'all', currentDramaData = null, currentEpisodeIndex = 0, idleTimer = null;
 
@@ -198,20 +137,11 @@
         function toggleEpisodeDrawer() { const drawer = document.getElementById('episodeDrawer'); drawer.classList.toggle('drawer-closed'); drawer.classList.toggle('drawer-open'); }
         function toggleProviderMenu() { document.getElementById('providerDropdown').classList.toggle('hidden'); }
         
-        function setupIdleDetection() {
-            const modal = document.getElementById('playerModal'), video = document.getElementById('mainVideo'), uiElements = [document.getElementById('playerTopUI'), document.getElementById('playerRightUI'), document.getElementById('playerBottomUI')];
-            function showUI() { uiElements.forEach(el => el.classList.remove('ui-hidden')); clearTimeout(idleTimer); if (!video.paused) idleTimer = setTimeout(() => uiElements.forEach(el => el.classList.add('ui-hidden')), 3500); }
-            modal.onmousemove = showUI; modal.ontouchstart = (e) => { if (!e.target.closest('#episodeDrawer')) showUI(); }; modal.onclick = (e) => { if (!e.target.closest('#episodeDrawer') && !e.target.closest('button')) showUI(); };
-            video.onpause = () => { clearTimeout(idleTimer); uiElements.forEach(el => el.classList.remove('ui-hidden')); }; video.onplay = showUI;
-        }
-
-        // --- CORE FUNCTIONS (DATA FETCHING) ---
+        // --- DATA FETCHING ---
         function switchProvider(key) { activeProviderKey = key; const provider = PROVIDERS[key]; document.getElementById('currentProviderName').innerText = provider.name; document.getElementById('currentProviderIcon').innerText = provider.text; document.getElementById('currentProviderIcon').className = `w-6 h-6 rounded-full ${provider.color} flex items-center justify-center text-[10px] font-bold text-white overflow-hidden shrink-0`; document.querySelector('#loading div').className = `animate-spin rounded-full h-12 w-12 border-4 border-[#333] ${provider.theme.spinner}`; document.getElementById('providerDropdown').classList.add('hidden'); document.getElementById('contentArea').innerHTML = ""; currentPage = 1; document.getElementById('loadingProviderName').innerText = provider.name; document.getElementById('pagination').classList.add('hidden'); changeTab('all'); }
         window.addEventListener('click', function(e) { const btn = document.querySelector('button[onclick="toggleProviderMenu()"]'); const menu = document.getElementById('providerDropdown'); if (btn && menu && !btn.contains(e.target) && !menu.contains(e.target)) menu.classList.add('hidden'); });
-        function getApiBase() { return PROVIDERS[activeProviderKey].apiBase; }
         function changeTab(tabName) { currentTab = tabName; const theme = PROVIDERS[activeProviderKey].theme; document.querySelectorAll('.tab-btn').forEach(btn => btn.className = "tab-btn px-4 py-1.5 rounded-full text-sm font-medium transition-all bg-[#1a1a1a] text-gray-400 hover:text-white border border-white/10 hover:border-white/30 whitespace-nowrap"); const activeBtn = document.querySelector(`button[onclick="changeTab('${tabName}')"]`); if(activeBtn) activeBtn.className = `tab-btn active px-4 py-1.5 rounded-full text-sm font-medium transition-all text-white whitespace-nowrap ${theme.tabActive}`; currentPage = 1; if (tabName === 'dub') searchDrama('Sulih Suara'); else fetchDramas(1); }
         
-        // --- FETCH DRAMAS (Generic for both providers) ---
         async function fetchDramas(page) { 
             setLoading(true); 
             try { 
@@ -220,14 +150,23 @@
                 if(!res.ok) throw new Error("Gagal mengambil data"); 
                 const json = await res.json(); 
                 
-                // Normalisasi Data
+                // Normalisasi Data Dramabox
                 let dramas = [];
-                if (activeProviderKey === 'dramabox' && json.success) {
-                    dramas = json.data.book || [];
+                if (activeProviderKey === 'dramabox') {
+                    // API Dramabox biasanya mengembalikan { success: true, data: { book: [...] } }
+                    // Jika json.data.book ada, pakai itu. Jika tidak, coba json.data (tergantung backend)
+                    if (json.data && json.data.book) {
+                        dramas = json.data.book;
+                    } else if (Array.isArray(json.data)) {
+                        dramas = json.data;
+                    } else {
+                        dramas = findDramasDeep(json); // Fallback
+                    }
                 } else {
                     dramas = findDramasDeep(json);
                 }
                 
+                // Unik
                 dramas = [...new Map(dramas.map(item => [item.shortPlayId || item.id || item.bookId, item])).values()]; 
                 renderGrid(dramas); 
                 renderPaginationButtons(); 
@@ -248,19 +187,22 @@
                 const data = await res.json();
                 
                 let dramas = [];
-                if (activeProviderKey === 'dramabox' && data.success) {
-                    dramas = data.data.book || [];
+                if (activeProviderKey === 'dramabox') {
+                    if (data.data && data.data.book) dramas = data.data.book;
+                    else dramas = findDramasDeep(data);
                 } else {
                     dramas = findDramasDeep(data);
                 }
 
                 if(dramas.length === 0) { 
-                    // Fallback Rekomendasi
                     const recRes = await fetch(`${provider.listPath}1`);
                     const recJson = await recRes.json();
                     let recDramas = [];
-                    if (activeProviderKey === 'dramabox') recDramas = recJson.data.book || [];
-                    else recDramas = findDramasDeep(recJson);
+                    if (activeProviderKey === 'dramabox') {
+                        recDramas = (recJson.data && recJson.data.book) ? recJson.data.book : findDramasDeep(recJson);
+                    } else {
+                        recDramas = findDramasDeep(recJson);
+                    }
                     
                     renderGrid(recDramas);
                     const container = document.getElementById('contentArea');
@@ -277,7 +219,6 @@
             setLoading(false);
         }
 
-        // --- OPEN INFO (Provider Specific) ---
         async function openInfo(id) {
             setLoading(true);
             try {
@@ -285,38 +226,26 @@
                 let title, desc, cover;
 
                 if (activeProviderKey === 'dramabox') {
-                    // DRAMABOX LOGIC
-                    const res = await fetch(`/api/detail/${id}`);
+                    // DRAMABOX DETAIL CALL
+                    // Endpoint disesuaikan dengan routes/api.js (/dramabox/allepisode?shortPlayId=...)
+                    const res = await fetch(`/api/dramabox/allepisode?shortPlayId=${id}`);
                     const json = await res.json();
-                    if (!json.success) throw new Error("Gagal load detail Dramabox");
-                    const data = json.data;
+                    const data = json.data || json; // Handle structure
                     
-                    // Cek struktur data Dramabox yang baru
-                    // Biasanya response detail/v2 return { chapters: [], drama: {} }
-                    // Jika endpoint /api/detail/:id di server.js pakai getDramaDetailV2, maka strukturnya seperti itu.
-                    
-                    // Fallback jika API return berbeda (sesuai Dramabox.js lama vs baru)
+                    // Struktur data Dramabox detail
                     const dramaInfo = data.drama || data; 
-                    title = dramaInfo.bookName || dramaInfo.name;
-                    desc = dramaInfo.introduction || "Tidak ada sinopsis.";
-                    cover = dramaInfo.cover || dramaInfo.coverWap;
+                    title = dramaInfo.bookName || dramaInfo.name || "Tanpa Judul";
+                    desc = dramaInfo.introduction || dramaInfo.desc || "Tidak ada sinopsis.";
+                    cover = dramaInfo.cover || dramaInfo.coverWap || "";
                     
-                    // Ambil Episode (Chapters)
-                    // Jika di detail sudah ada chapterList, pakai itu. Jika tidak, fetch lagi.
-                    if (data.chapters) {
-                        episodes = data.chapters;
-                    } else {
-                        const chRes = await fetch(`/api/chapters/${id}`);
-                        const chJson = await chRes.json();
-                        episodes = chJson.data || [];
-                    }
+                    // Episode list (Dramabox biasanya 'chapters')
+                    episodes = data.chapters || [];
                     
-                    // Struktur Object DramaBox untuk Player
                     currentDramaData = { shortPlayId: id, shortPlayName: title, shortPlayCover: cover, episodes: episodes, provider: 'dramabox' };
 
                 } else {
-                    // NETSHORT LOGIC
-                    const res = await fetch(`${getApiBase()}/allepisode?shortPlayId=${id}`);
+                    // NETSHORT DETAIL CALL
+                    const res = await fetch(`/api/netshort/allepisode?shortPlayId=${id}`);
                     const data = await res.json();
                     currentDramaData = data;
                     currentDramaData.provider = 'netshort';
@@ -327,7 +256,6 @@
                     episodes = data.shortPlayEpisodeInfos || (data.data && data.data.shortPlayEpisodeInfos) || [];
                 }
 
-                // Update UI Info Modal
                 document.getElementById('infoTitle').innerText = title || "Judul Drama";
                 document.getElementById('infoSynopsis').innerText = desc || "Tidak ada sinopsis.";
                 document.getElementById('infoCover').src = cover || "";
@@ -370,7 +298,6 @@
             const title = currentDramaData.shortPlayName;
             const cover = currentDramaData.shortPlayCover;
             const id = currentDramaData.shortPlayId;
-            // Dramabox episodes array structure might differ slightly (usually just array of objects)
             const episodes = isDramabox ? currentDramaData.episodes : (currentDramaData.shortPlayEpisodeInfos || currentDramaData.data.shortPlayEpisodeInfos);
 
             document.getElementById('playerTitle').innerText = title;
@@ -391,8 +318,8 @@
             if (episodes.length > 0) {
                 episodes.forEach((ep, idx) => {
                     const btn = document.createElement('button');
-                    // Dramabox ep might use 'index' or 'chapterIndex', NetShort uses 'episodeNo'
-                    const epNum = isDramabox ? (ep.index || ep.chapterIndex || idx + 1) : (ep.episodeNo || idx + 1);
+                    // Dramabox kadang pakai 'index' atau 'chapterId', NetShort pakai 'episodeNo'
+                    const epNum = isDramabox ? (ep.index || idx + 1) : (ep.episodeNo || idx + 1);
                     btn.innerText = epNum;
                     btn.className = `py-3 rounded-lg text-sm font-bold transition border border-white/5 bg-[#252525] text-gray-300 ${hoverClass}`;
                     
@@ -403,31 +330,28 @@
                         
                         saveToHistory(id, title, cover, idx, epNum);
                         
-                        // --- VIDEO SOURCE LOGIC ---
                         if (isDramabox) {
-                            // DRAMABOX STREAMING
-                            videoEl.src = "";
-                            subStatus.innerText = "LOADING...";
-                            try {
-                                const streamRes = await fetch(`/api/stream?bookId=${id}&episode=${epNum}`);
-                                const streamData = await streamRes.json();
-                                // Dramabox.js returns data.url or similar from mirror
-                                const videoUrl = streamData.url || streamData.m3u8 || streamData.data; 
-                                
-                                if (videoUrl) {
-                                    videoEl.src = videoUrl;
-                                    videoEl.play();
-                                    subStatus.innerText = "PLAYING";
-                                    if (window.innerWidth < 1024) toggleEpisodeDrawer();
-                                } else {
-                                    alert("Gagal memuat video Dramabox");
-                                }
-                            } catch (err) {
-                                console.error("Stream Error", err);
-                                alert("Error memuat video");
+                            // --- DRAMABOX STREAMING (Link Video ada di object chapter) ---
+                            // Cek apakah link video sudah ada di object episode (biasanya encryptUrl atau url)
+                            // Jika belum, mungkin perlu fetch lagi. Asumsikan data detail sudah lengkap.
+                            
+                            // NOTE: Dramabox biasanya butuh sign ulang untuk play, tapi jika data chapter sudah ada linknya, kita pakai itu.
+                            // Jika linknya m3u8, video tag HTML5 bisa mainkan di Chrome Mobile (HLS native) atau perlu hls.js di desktop.
+                            // Kita coba langsung src dulu.
+                            
+                            const videoUrl = ep.url || ep.contentUrl || ""; 
+                            if(videoUrl) {
+                                videoEl.src = videoUrl;
+                                videoEl.play();
+                                subStatus.innerText = "PLAYING";
+                                if (window.innerWidth < 1024) toggleEpisodeDrawer();
+                            } else {
+                                // Jika tidak ada link, berarti harus fetch stream khusus
+                                // Implementasi fetch stream tambahan jika diperlukan di sini
+                                alert("Link video tidak tersedia langsung.");
                             }
                         } else {
-                            // NETSHORT STREAMING
+                            // --- NETSHORT STREAMING ---
                             const url = ep.playVoucher || ep.playUrl || ep.videoUrl;
                             if(url) { 
                                 videoEl.src = url; 
@@ -480,7 +404,7 @@
             return URL.createObjectURL(blob); 
         }
         function renderPaginationButtons() { const container = document.getElementById('pageNumbers'); document.getElementById('pagination').classList.remove('hidden'); container.innerHTML = ""; document.getElementById('prevBtn').disabled = currentPage === 1; const theme = PROVIDERS[activeProviderKey].theme; let start = Math.max(1, currentPage - 1); let end = start + 2; for (let i = start; i <= end; i++) { const btn = document.createElement('button'); btn.innerText = i; btn.className = `w-10 h-10 rounded-lg text-sm font-bold transition ${i === currentPage ? `${theme.tabActive} text-white` : `bg-[#1a1a1a] text-gray-400 hover:bg-[#252525] hover:text-white`}`; btn.onclick = () => changePage(i); container.appendChild(btn); } const navClass = `px-4 py-2 rounded-lg bg-[#1a1a1a] text-white ${theme.hover} disabled:opacity-50 disabled:cursor-not-allowed transition`; document.getElementById('prevBtn').className = navClass; document.getElementById('nextBtn').className = navClass; }
-        function findDramasDeep(obj, found = []) { if (!obj) return found; if (Array.isArray(obj)) { obj.forEach(item => findDramasDeep(item, found)); return found; } if (typeof obj === 'object') { const title = obj.shortPlayName || obj.title || obj.name; const cover = obj.shortPlayCover || obj.coverUrl || obj.imgUrl || obj.cover; const id = obj.shortPlayId || obj.bookId || obj.id; if (title && cover && id) found.push(obj); Object.values(obj).forEach(val => { if (typeof val === 'object') findDramasDeep(val, found); }); } return found; }
+        function findDramasDeep(obj, found = []) { if (!obj) return found; if (Array.isArray(obj)) { obj.forEach(item => findDramasDeep(item, found)); return found; } if (typeof obj === 'object') { const title = obj.shortPlayName || obj.title || obj.name || obj.bookName; const cover = obj.shortPlayCover || obj.coverUrl || obj.imgUrl || obj.cover; const id = obj.shortPlayId || obj.bookId || obj.id; if (title && cover && id) found.push(obj); Object.values(obj).forEach(val => { if (typeof val === 'object') findDramasDeep(val, found); }); } return found; }
         function setLoading(state) { const l = document.getElementById('loading'), c = document.getElementById('contentArea'); if(state) { l.classList.remove('hidden'); c.classList.add('hidden'); } else { l.classList.add('hidden'); c.classList.remove('hidden'); } }
         function closeInfoModal() { document.getElementById('infoModal').classList.add('opacity-0'); setTimeout(() => document.getElementById('infoModal').classList.add('hidden'), 300); }
         function closePlayer() { const m = document.getElementById('playerModal'); const v = document.getElementById('mainVideo'); v.pause(); v.innerHTML = ""; v.onended = null; clearTimeout(idleTimer); m.classList.add('opacity-0'); setTimeout(() => m.classList.add('hidden'), 300); renderHistorySection(); }
@@ -488,8 +412,10 @@
         function saveToHistory(dramaId, title, cover, epIndex, epNum) { let history = getHistory().filter(h => h.id !== dramaId); history.unshift({ id: dramaId, title: title, cover: cover, lastEpIndex: epIndex, lastEpNum: epNum, timestamp: Date.now() }); localStorage.setItem('ns_history', JSON.stringify(history.slice(0, 20))); renderHistorySection(); }
         function clearHistory() { if(confirm('Hapus riwayat?')) { localStorage.removeItem('ns_history'); renderHistorySection(); } }
         function renderHistorySection() { const history = getHistory(); const section = document.getElementById('historySection'); const list = document.getElementById('historyList'); if (history.length === 0) { section.classList.add('hidden'); return; } section.classList.remove('hidden'); list.innerHTML = ""; history.forEach(item => { list.innerHTML += `<div class="flex-none w-32 snap-start cursor-pointer group relative" onclick="openInfo('${item.id}')"><div class="aspect-[3/4] rounded-lg overflow-hidden relative bg-[#151515] border border-white/5"><img src="${item.cover}" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition"><div class="absolute bottom-0 left-0 right-0 h-1 bg-gray-700"><div class="h-full bg-red-600 w-2/3"></div></div></div><h4 class="text-[10px] font-bold text-gray-400 mt-1 truncate group-hover:text-white">Ep ${item.lastEpNum} • ${item.title}</h4></div>`; }); }
-        function renderGrid(items) { const container = document.getElementById('contentArea'); container.innerHTML = ""; const grid = document.createElement('div'); grid.className = "grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 sm:gap-6"; const theme = PROVIDERS[activeProviderKey].theme; items.forEach((item, idx) => { const id = item.shortPlayId || item.id || item.bookId; const title = item.shortPlayName || item.title || item.name; const cover = item.shortPlayCover || item.coverUrl || item.cover; const stats = item.heatScoreShow || "HOT"; const labels = item.labelArray || []; const isDub = labels.some(l => /sulih|suara|dubbing|indo|bahasa/i.test(l)) || title.toLowerCase().includes('indo') || currentTab === 'dub'; const isNew = item.isNewLabel === true || currentTab === 'new'; let badges = `<span class="${theme.badge} text-white text-[9px] font-bold px-1.5 py-0.5 rounded backdrop-blur-sm shadow-sm">🔥 ${stats}</span>`; if (isDub) badges = `<span class="bg-blue-600/90 text-white text-[9px] font-bold px-1.5 py-0.5 rounded shadow-sm mb-1 block w-fit">🇮🇩 INDO</span>` + badges; if (isNew) badges = `<span class="bg-green-600/90 text-white text-[9px] font-bold px-1.5 py-0.5 rounded shadow-sm mb-1 block w-fit">NEW</span>` + badges; grid.innerHTML += `<div class="group cursor-pointer relative bg-[#151515] rounded-xl overflow-hidden shadow-lg hover:shadow-red-900/20 transition-all duration-300 hover:-translate-y-1 card-anim" style="animation-delay: ${idx * 30}ms" onclick="openInfo('${id}')"><div class="aspect-[3/4] overflow-hidden relative"><img src="${cover}" alt="${title}" loading="lazy" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"><div class="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent opacity-80 group-hover:opacity-100"></div><div class="absolute top-2 right-2 flex flex-col items-end">${badges}</div></div><div class="p-3"><h3 class="text-xs sm:text-sm font-bold text-gray-200 line-clamp-2 leading-snug group-hover:${theme.text} transition-colors">${title}</h3></div></div>`; }); container.appendChild(grid); container.classList.remove('hidden'); }
+        function renderGrid(items) { const container = document.getElementById('contentArea'); container.innerHTML = ""; const grid = document.createElement('div'); grid.className = "grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 sm:gap-6"; const theme = PROVIDERS[activeProviderKey].theme; items.forEach((item, idx) => { const id = item.shortPlayId || item.id || item.bookId; const title = item.shortPlayName || item.title || item.name || item.bookName; const cover = item.shortPlayCover || item.coverUrl || item.cover; const stats = item.heatScoreShow || "HOT"; const labels = item.labelArray || []; const isDub = labels.some(l => /sulih|suara|dubbing|indo|bahasa/i.test(l)) || title.toLowerCase().includes('indo') || currentTab === 'dub'; const isNew = item.isNewLabel === true || currentTab === 'new'; let badges = `<span class="${theme.badge} text-white text-[9px] font-bold px-1.5 py-0.5 rounded backdrop-blur-sm shadow-sm">🔥 ${stats}</span>`; if (isDub) badges = `<span class="bg-blue-600/90 text-white text-[9px] font-bold px-1.5 py-0.5 rounded shadow-sm mb-1 block w-fit">🇮🇩 INDO</span>` + badges; if (isNew) badges = `<span class="bg-green-600/90 text-white text-[9px] font-bold px-1.5 py-0.5 rounded shadow-sm mb-1 block w-fit">NEW</span>` + badges; grid.innerHTML += `<div class="group cursor-pointer relative bg-[#151515] rounded-xl overflow-hidden shadow-lg hover:shadow-red-900/20 transition-all duration-300 hover:-translate-y-1 card-anim" style="animation-delay: ${idx * 30}ms" onclick="openInfo('${id}')"><div class="aspect-[3/4] overflow-hidden relative"><img src="${cover}" alt="${title}" loading="lazy" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"><div class="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent opacity-80 group-hover:opacity-100"></div><div class="absolute top-2 right-2 flex flex-col items-end">${badges}</div></div><div class="p-3"><h3 class="text-xs sm:text-sm font-bold text-gray-200 line-clamp-2 leading-snug group-hover:${theme.text} transition-colors">${title}</h3></div></div>`; }); container.appendChild(grid); container.classList.remove('hidden'); }
         function changePage(page) { if (page < 1) return; currentPage = page; window.scrollTo({ top: 0, behavior: 'smooth' }); fetchDramas(page); }
+        function setupIdleDetection() { const modal = document.getElementById('playerModal'), video = document.getElementById('mainVideo'), uiElements = [document.getElementById('playerTopUI'), document.getElementById('playerRightUI'), document.getElementById('playerBottomUI')]; function showUI() { uiElements.forEach(el => el.classList.remove('ui-hidden')); clearTimeout(idleTimer); if (!video.paused) idleTimer = setTimeout(() => uiElements.forEach(el => el.classList.add('ui-hidden')), 3500); } modal.onmousemove = showUI; modal.ontouchstart = (e) => { if (!e.target.closest('#episodeDrawer')) showUI(); }; modal.onclick = (e) => { if (!e.target.closest('#episodeDrawer') && !e.target.closest('button')) showUI(); }; video.onpause = () => { clearTimeout(idleTimer); uiElements.forEach(el => el.classList.remove('ui-hidden')); }; video.onplay = showUI; }
+        
         document.getElementById('searchInput').addEventListener('keypress', (e) => { if (e.key === 'Enter') searchDrama(e.target.value); });
         
         // --- LOAD SETTINGS (From Admin) ---
@@ -498,17 +424,14 @@
                 name: 'StreamHub123', tagline: 'Nonton Drama China', desc: 'Platform streaming drama pendek terlengkap.', logo: ''
             };
             document.title = `${config.name} - ${config.tagline}`;
-            
             const navName = document.getElementById('navSiteName');
             const navImg = document.getElementById('navLogoImg');
             navName.innerText = config.name;
             if(config.logo) { navImg.src = config.logo; navImg.classList.remove('hidden'); }
             else { navImg.classList.add('hidden'); }
-
             document.getElementById('footerTitle').innerText = config.name;
             document.getElementById('footerDesc').innerText = config.desc;
             document.getElementById('copyrightName').innerText = config.name;
-            
             const footBox = document.getElementById('footerLogoBox');
             const footImg = document.getElementById('footerLogoImg');
             if(config.logo) { footImg.src = config.logo; footImg.classList.remove('hidden'); footBox.classList.add('hidden'); } 

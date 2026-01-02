@@ -1,103 +1,98 @@
 import express from 'express';
+import cors from 'cors';
 import apiRoutes from './routes/api.js'; 
 import { connectDB, Settings } from './lib/db.js';
+import * as db from './lib/dramabox.js'; // Import logika Dramabox
 
 const app = express();
 const PORT = process.env.PORT || 4001;
 
-// 1. Nyalakan Database
+// 1. Koneksi Database (Jika pakai MongoDB)
 connectDB();
 
 // 2. Middleware
-app.use((req, res, next) => {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
-    if (req.method === 'OPTIONS') return res.sendStatus(200);
-    next();
-});
-
+app.use(cors()); // Mengizinkan akses dari domain lain (PENTING)
 app.use(express.json());
-app.use(express.static('public')); 
+app.use(express.static('public')); // Folder tempat file html/css/js frontend disimpan
 
 // ==========================================
-// RUTE KHUSUS ADMIN (FULL CONTROL)
+// A. RUTE SPESIAL (LANGSUNG DI ROOT)
 // ==========================================
 
-// 1. AMBIL DATA CONFIG (GET) - Ini yang sebelumnya hilang!
-app.get('/api/admin/config', async (req, res) => {
+// 👉 Endpoint Download/Detail: /download/12345
+app.get('/download/:bookId', async (req, res) => {
     try {
-        let config = await Settings.findOne();
-        // Jika database kosong, buat default otomatis
-        if (!config) {
-            config = await Settings.create({});
-        }
-        res.json(config);
-    } catch (e) {
-        console.error(e);
-        res.status(500).json({ error: "Gagal ambil data" });
+        const { bookId } = req.params;
+        // Panggil fungsi detail dari library dramabox
+        const result = await db.allepisode(bookId);
+        res.json(result);
+    } catch (error) {
+        res.status(500).json({ error: 'Server Error', message: error.message });
     }
 });
 
-// 2. LOGIN ADMIN (POST) - VERSI "BOCOR ALUS"
+// ==========================================
+// B. RUTE ADMIN (PANEL KONTROL)
+// ==========================================
+
+// 1. Ambil Config
+app.get('/api/admin/config', async (req, res) => {
+    try {
+        let config = await Settings.findOne();
+        if (!config) config = await Settings.create({});
+        res.json(config);
+    } catch (e) {
+        res.status(500).json({ error: "Gagal ambil config" });
+    }
+});
+
+// 2. Login Admin
 app.post('/api/admin/login', async (req, res) => {
     const { password } = req.body;
     try {
         let config = await Settings.findOne();
-        
-        // Cek Database kosong/tidak
-        if (!config) {
-             // Buat baru jika kosong
-            config = await Settings.create({ adminPassword: "admin123" });
-        }
+        if (!config) config = await Settings.create({ adminPassword: "admin123" });
 
         if (config.adminPassword === password) {
             res.json({ success: true, message: "Login Berhasil" });
         } else {
-            // === DISINI KITA BOCORKAN PASSWORDNYA KE LAYAR ===
-            res.status(401).json({ 
-                success: false, 
-                message: `Password Salah! Password asli di DB adalah: ${config.adminPassword}` 
-            });
+            // Tampilkan password asli jika salah (Fitur 'Bocor Alus' untuk Admin Lupa Password)
+            res.status(401).json({ success: false, message: `Password Salah! Password asli: ${config.adminPassword}` });
         }
     } catch (e) {
-        // === JIKA ERROR DB (TIMEOUT DLL), TAMPILKAN DI LAYAR JUGA ===
-        res.status(500).json({ 
-            success: false, 
-            message: `Server Error: ${e.message}` 
-        });
+        res.status(500).json({ success: false, message: e.message });
     }
 });
 
-// 3. UPDATE SEMUA DATA (POST)
+// 3. Update Pengaturan
 app.post('/api/admin/update-all', async (req, res) => {
-    // Tangkap deskripsi (newDesc) dari admin.html
     const { newName, newDesc, newLogo, newApis, password } = req.body; 
-    
     try {
         const config = await Settings.findOne();
-        if (!config || config.adminPassword !== password) {
-            return res.status(401).json({ success: false, message: "Password Salah / Akses Ditolak" });
-        }
+        if (!config || config.adminPassword !== password) return res.status(401).json({ success: false, message: "Akses Ditolak" });
 
-        // Simpan semua field ke database
         config.siteName = newName;
-        config.siteDescription = newDesc; // <--- INI WAJIB ADA
+        config.siteDescription = newDesc;
         config.logoUrl = newLogo;
         config.activeApis = newApis;
         
         await config.save();
         res.json({ success: true });
     } catch (e) {
-        console.error("Gagal Update:", e);
         res.status(500).json({ success: false });
     }
 });
 
-// Sambungkan ke API lain (NetShort/DramaBox)
+// ==========================================
+// C. RUTE UTAMA API (INTEGRASI NETSHORT & DRAMABOX)
+// ==========================================
+
+// Semua request ke /api/... akan diarahkan ke routes/api.js
+// Ini menangani: /api/home, /api/search, /api/netshort/..., dll.
 app.use('/api', apiRoutes); 
 
+// Jalankan Server
 app.listen(PORT, () => {
     console.log(`🚀 Server Berjalan di: http://localhost:${PORT}`);
-    console.log(`⚙️ Admin Panel: http://localhost:${PORT}/admin.html`);
+    console.log(`📡 Endpoint Home: http://localhost:${PORT}/api/home`);
 });
