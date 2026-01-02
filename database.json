@@ -1,0 +1,10 @@
+{
+  "siteName": "SUKA DRACIN",
+  "siteDescription": "Platform streaming drama pendek Asia dengan subtitle & dubbing Indonesia terlengkap.",
+  "logoUrl": "",
+  "adminPassword": "admin123",
+  "activeApis": [
+    "NetShort",
+    "DramaBox"
+  ]
+}

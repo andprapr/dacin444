@@ -2,8 +2,11 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>StreamHub12- Nonton Drama China</title>
+    <title>StreamHub123- Nonton Drama China</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         .no-scrollbar::-webkit-scrollbar { display: none; }
@@ -80,60 +83,432 @@
         </div>
     </main>
 
-<footer class="bg-black text-white py-12 border-t border-gray-800">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-            <div class="col-span-1 md:col-span-2">
-                <div class="flex items-center gap-2 mb-4">
-                    <div class="w-10 h-10 bg-red-600 rounded-lg flex items-center justify-center text-white font-bold text-lg">SH</div>
-                    <h3 id="footerTitle" class="text-2xl font-bold tracking-tight">StreamHub</h3>
-                </div>
-                <p id="footerDesc" class="text-gray-400 text-sm leading-relaxed max-w-md">
-                    Loading deskripsi...
-                </p>
-            </div>
-            
-            </div>
+<footer class="bg-black text-white py-12 border-t border-gray-800 mt-auto">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-center text-center">
         
-        <div class="mt-8 pt-8 border-t border-gray-800 text-center text-gray-500 text-sm">
-            &copy; 2024 <span id="copyrightName">StreamHub</span>. All rights reserved.
+        <div class="flex items-center gap-3 mb-6 transition-transform hover:scale-105 duration-300">
+            <div class="w-12 h-12 bg-gradient-to-br from-red-600 to-red-800 rounded-xl flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-red-900/30">
+                SH
+            </div>
+            <h3 id="footerTitle" class="text-3xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-400">
+                StreamHub
+            </h3>
         </div>
+
+        <p id="footerDesc" class="text-gray-400 text-base leading-relaxed max-w-2xl mb-10">
+            Loading deskripsi...
+        </p>
+
+        <div class="w-full border-t border-gray-800 pt-8 text-gray-500 text-sm flex flex-col md:flex-row justify-center items-center gap-4">
+            <p>&copy; 2024 <span id="copyrightName" class="text-gray-300 font-medium">StreamHub</span>. All rights reserved.</p>
+        </div>
+
     </div>
 </footer>
-
 <script>
-    async function applySettings() {
+    // Konfigurasi Provider dengan Warna Tema
+    const PROVIDERS = { 
+        'netshort': { 
+            name: 'NetShort', 
+            apiBase: '/api/netshort', 
+            color: 'bg-gradient-to-br from-red-600 to-red-800', 
+            text: 'NS',
+            theme: {
+                badge: 'bg-red-600/90',
+                tabActive: 'bg-red-600 border-red-600 shadow-[0_0_10px_rgba(220,38,38,0.4)]',
+                spinner: 'border-t-red-600',
+                hover: 'hover:bg-red-600',
+                text: 'text-red-500'
+            }
+        }, 
+        'dramabox': { 
+            name: 'DramaBox', 
+            apiBase: '/api/dramabox', 
+            color: 'bg-gradient-to-br from-orange-500 to-orange-700', 
+            text: 'DB',
+            theme: {
+                badge: 'bg-orange-600/90',
+                tabActive: 'bg-orange-600 border-orange-600 shadow-[0_0_10px_rgba(234,88,12,0.4)]',
+                spinner: 'border-t-orange-600',
+                hover: 'hover:bg-orange-600',
+                text: 'text-orange-500'
+            }
+        } 
+    };
+
+    let activeProviderKey = 'netshort';
+    let currentPage = 1;
+    let currentTab = 'all';
+    let currentDramaData = null;
+    let currentEpisodeIndex = 0;
+
+    // --- FUNGSI GANTI PROVIDER (Updated) ---
+    function switchProvider(key) { 
+        activeProviderKey = key; 
+        const provider = PROVIDERS[key]; 
+        
+        // 1. Ganti Tombol Navigasi Atas
+        document.getElementById('currentProviderName').innerText = provider.name; 
+        const icon = document.getElementById('currentProviderIcon'); 
+        icon.innerText = provider.text; 
+        icon.className = `w-6 h-6 rounded-full ${provider.color} flex items-center justify-center text-[10px] font-bold text-white overflow-hidden shadow-lg transition-all duration-300`; 
+        
+        // 2. Ganti Warna Spinner Loading
+        const spinner = document.querySelector('#loading div');
+        spinner.className = `animate-spin rounded-full h-12 w-12 border-4 border-[#333] ${provider.theme.spinner}`;
+
+        // 3. Reset Tampilan
+        document.getElementById('providerDropdown').classList.add('hidden'); 
+        document.getElementById('contentArea').innerHTML = ""; 
+        currentPage = 1; 
+        
+        // 4. Update Nama di Loading Screen
+        document.getElementById('loadingProviderName').innerText = provider.name; 
+        document.getElementById('pagination').classList.add('hidden'); 
+
+        // 5. Reload Data & Tab (Warna Tab akan update otomatis di changeTab)
+        changeTab('all'); 
+    }
+
+    function toggleProviderMenu() { document.getElementById('providerDropdown').classList.toggle('hidden'); }
+    
+    // Tutup dropdown kalau klik di luar
+    window.addEventListener('click', function(e) { 
+        const btn = document.querySelector('button[onclick="toggleProviderMenu()"]'); 
+        const menu = document.getElementById('providerDropdown'); 
+        if (btn && menu && !btn.contains(e.target) && !menu.contains(e.target)) menu.classList.add('hidden'); 
+    });
+
+    function getApiBase() { return PROVIDERS[activeProviderKey].apiBase; }
+
+    // --- FUNGSI GANTI TAB (Updated Warna) ---
+    function changeTab(tabName) { 
+        currentTab = tabName; 
+        const theme = PROVIDERS[activeProviderKey].theme;
+        
+        // Reset semua tombol tab jadi abu-abu
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.className = "tab-btn px-4 py-1.5 rounded-full text-sm font-medium transition-all bg-[#1a1a1a] text-gray-400 hover:text-white border border-white/10 hover:border-white/30 whitespace-nowrap";
+        });
+
+        // Warnai tombol aktif sesuai Provider (Merah/Orange)
+        const activeBtn = event.target.tagName === 'BUTTON' ? event.target : document.querySelector(`button[onclick="changeTab('${tabName}')"]`);
+        if(activeBtn) {
+            activeBtn.className = `tab-btn active px-4 py-1.5 rounded-full text-sm font-medium transition-all text-white whitespace-nowrap ${theme.tabActive}`;
+        }
+
+        currentPage = 1; 
+        if (tabName === 'dub') { searchDrama('Sulih Suara'); } 
+        else { fetchDramas(1); } 
+    }
+
+    // --- RENDER GRID (Updated Warna Badge) ---
+    function renderGrid(items) {
+        const container = document.getElementById('contentArea');
+        container.innerHTML = "";
+        const grid = document.createElement('div');
+        grid.className = "grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 sm:gap-6";
+        
+        const theme = PROVIDERS[activeProviderKey].theme; // Ambil tema warna aktif
+
+        items.forEach((item, idx) => {
+            const id = item.shortPlayId || item.id;
+            const title = item.shortPlayName || item.title;
+            const cover = item.shortPlayCover || item.coverUrl;
+            const stats = item.heatScoreShow || "HOT"; 
+            const labels = item.labelArray || [];
+            
+            const isDub = labels.some(l => /sulih|suara|dubbing|indo|bahasa/i.test(l)) || title.toLowerCase().includes('indo') || currentTab === 'dub';
+            const isNew = item.isNewLabel === true || currentTab === 'new';
+            
+            // Ganti bg-red-600 jadi dynamic theme.badge
+            let badges = `<span class="${theme.badge} text-white text-[9px] font-bold px-1.5 py-0.5 rounded backdrop-blur-sm shadow-sm">🔥 ${stats}</span>`;
+            
+            if (isDub) badges = `<span class="bg-blue-600/90 text-white text-[9px] font-bold px-1.5 py-0.5 rounded shadow-sm mb-1 block w-fit">🇮🇩 INDO</span>` + badges;
+            if (isNew) badges = `<span class="bg-green-600/90 text-white text-[9px] font-bold px-1.5 py-0.5 rounded shadow-sm mb-1 block w-fit">NEW</span>` + badges;
+            
+            grid.innerHTML += `
+            <div class="group cursor-pointer relative bg-[#151515] rounded-xl overflow-hidden shadow-lg hover:shadow-red-900/20 transition-all duration-300 hover:-translate-y-1 card-anim" style="animation-delay: ${idx * 30}ms" onclick="openInfo('${id}')">
+                <div class="aspect-[3/4] overflow-hidden relative">
+                    <img src="${cover}" alt="${title}" loading="lazy" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent opacity-80 group-hover:opacity-100"></div>
+                    <div class="absolute top-2 right-2 flex flex-col items-end">${badges}</div>
+                </div>
+                <div class="p-3">
+                    <h3 class="text-xs sm:text-sm font-bold text-gray-200 line-clamp-2 leading-snug group-hover:${theme.text} transition-colors">${title}</h3>
+                </div>
+            </div>`;
+        });
+        container.appendChild(grid);
+        container.classList.remove('hidden');
+    }
+
+    // --- FUNGSI PAGINATION ---
+    function renderPaginationButtons() { 
+        const container = document.getElementById('pageNumbers'); 
+        document.getElementById('pagination').classList.remove('hidden'); 
+        container.innerHTML = ""; 
+        document.getElementById('prevBtn').disabled = currentPage === 1; 
+        
+        const theme = PROVIDERS[activeProviderKey].theme; // Ambil tema
+
+        let start = Math.max(1, currentPage - 1); 
+        let end = start + 2; 
+        
+        for (let i = start; i <= end; i++) { 
+            const btn = document.createElement('button'); 
+            btn.innerText = i; 
+            // Ganti warna pagination aktif
+            btn.className = `w-10 h-10 rounded-lg text-sm font-bold transition ${i === currentPage ? `${theme.tabActive} text-white` : `bg-[#1a1a1a] text-gray-400 hover:bg-[#252525] hover:text-white`}`; 
+            btn.onclick = () => changePage(i); 
+            container.appendChild(btn); 
+        } 
+        
+        // Update warna tombol Next/Prev saat hover
+        const navClass = `px-4 py-2 rounded-lg bg-[#1a1a1a] text-white ${theme.hover} disabled:opacity-50 disabled:cursor-not-allowed transition`;
+        document.getElementById('prevBtn').className = navClass;
+        document.getElementById('nextBtn').className = navClass;
+    }
+
+    // --- FUNGSI LAINNYA (Standar) ---
+    async function fetchDramas(page) {
+        setLoading(true);
+        try {
+            const res = await fetch(`${getApiBase()}/foryou?page=${page}`);
+            if(!res.ok) throw new Error("Gagal mengambil data");
+            const json = await res.json();
+            let dramas = findDramasDeep(json);
+            dramas = [...new Map(dramas.map(item => [item.shortPlayId || item.id, item])).values()];
+            renderGrid(dramas);
+            renderPaginationButtons();
+        } catch (error) {
+            console.error(error);
+            let msg = error.message;
+            if(activeProviderKey === 'dramabox' && msg.includes('Backend')) msg = `<span class="block text-xl font-bold mb-2">Backend DramaBox Belum Siap</span>`;
+            document.getElementById('contentArea').innerHTML = `<div class="text-center text-gray-500 mt-20 px-4">${msg}</div>`;
+            document.getElementById('pagination').classList.add('hidden');
+        }
+        setLoading(false);
+    }
+
+    async function searchDrama(query) {
+        setLoading(true);
+        try {
+            const res = await fetch(`${getApiBase()}/search?query=${encodeURIComponent(query)}`);
+            if(!res.ok) throw new Error("Search Error");
+            const data = await res.json();
+            let dramas = findDramasDeep(data);
+            if(dramas.length === 0) {
+                 document.getElementById('contentArea').innerHTML = `<div class="text-center text-gray-500 mt-10 w-full col-span-full">Tidak ditemukan.</div>`;
+                 document.getElementById('pagination').classList.add('hidden');
+            } else { renderGrid(dramas); document.getElementById('pagination').classList.add('hidden'); }
+        } catch (e) { console.error(e); setLoading(false); }
+        setLoading(false);
+    }
+
+    async function changePage(page) {
+        if (page < 1) return;
+        currentPage = page;
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        await fetchDramas(page);
+    }
+
+    async function openInfo(id) {
+        setLoading(true);
+        try {
+            const res = await fetch(`${getApiBase()}/allepisode?shortPlayId=${id}`);
+            const data = await res.json();
+            currentDramaData = data;
+            const detail = data.detail || data; 
+            const title = detail.shortPlayName || "Judul Drama";
+            const desc = detail.shotIntroduce || detail.shortPlayIntroduce || "Tidak ada sinopsis.";
+            const cover = detail.shortPlayCover || "";
+            const episodes = data.shortPlayEpisodeInfos || (data.data && data.data.shortPlayEpisodeInfos) || [];
+            
+            document.getElementById('infoTitle').innerText = title;
+            document.getElementById('infoSynopsis').innerText = desc;
+            document.getElementById('infoCover').src = cover;
+            document.getElementById('infoEpsBadge').innerText = `${episodes.length} Episode`;
+            
+            const prov = PROVIDERS[activeProviderKey];
+            const badge = document.getElementById('infoProviderBadge');
+            badge.innerText = prov.name.toUpperCase();
+            badge.className = `${prov.color} text-white text-xs font-bold px-2 py-1 rounded shadow-sm`;
+            
+            const history = getHistory().find(h => h.id === id);
+            const btnPlay = document.getElementById('btnPlayMain');
+            const lastWatchedBox = document.getElementById('lastWatchedInfo');
+            
+            // Update warna tombol Play sesuai tema
+            const themeClass = activeProviderKey === 'dramabox' ? 'bg-orange-600 hover:bg-orange-700 shadow-[0_0_20px_rgba(234,88,12,0.4)]' : 'bg-red-600 hover:bg-red-700 shadow-[0_0_20px_rgba(220,38,38,0.4)]';
+            btnPlay.className = `flex-1 ${themeClass} text-white font-bold py-3 px-6 rounded-xl flex items-center justify-center gap-2 transition transform hover:scale-[1.02]`;
+
+            if(history && history.lastEpIndex < episodes.length) {
+                btnPlay.innerHTML = `Lanjut Episode ${history.lastEpNum}`;
+                btnPlay.onclick = () => startPlayer(history.lastEpIndex);
+                lastWatchedBox.classList.remove('hidden');
+                document.getElementById('lastEpNum').innerText = history.lastEpNum;
+            } else {
+                btnPlay.innerHTML = `Tonton Episode 1`;
+                btnPlay.onclick = () => startPlayer(0);
+                lastWatchedBox.classList.add('hidden');
+            }
+            
+            const modal = document.getElementById('infoModal');
+            modal.classList.remove('hidden');
+            setTimeout(() => modal.classList.remove('opacity-0'), 10);
+        } catch (e) { console.error(e); }
+        setLoading(false);
+    }
+
+    function findDramasDeep(obj, found = []) {
+        if (!obj) return found;
+        if (Array.isArray(obj)) { obj.forEach(item => findDramasDeep(item, found)); return found; }
+        if (typeof obj === 'object') {
+            const title = obj.shortPlayName || obj.title || obj.name;
+            const cover = obj.shortPlayCover || obj.coverUrl || obj.imgUrl;
+            const id = obj.shortPlayId || obj.bookId || obj.id;
+            if (title && cover && id) found.push(obj);
+            Object.values(obj).forEach(val => { if (typeof val === 'object') findDramasDeep(val, found); });
+        }
+        return found;
+    }
+
+    function getHistory() { return JSON.parse(localStorage.getItem('ns_history') || '[]'); }
+    function saveToHistory(dramaId, title, cover, epIndex, epNum) {
+        let history = getHistory().filter(h => h.id !== dramaId);
+        history.unshift({ id: dramaId, title: title, cover: cover, lastEpIndex: epIndex, lastEpNum: epNum, timestamp: Date.now() });
+        localStorage.setItem('ns_history', JSON.stringify(history.slice(0, 20)));
+        renderHistorySection();
+    }
+    function clearHistory() { if(confirm('Hapus riwayat?')) { localStorage.removeItem('ns_history'); renderHistorySection(); } }
+    
+    function renderHistorySection() {
+        const history = getHistory();
+        const section = document.getElementById('historySection');
+        const list = document.getElementById('historyList');
+        if (history.length === 0) { section.classList.add('hidden'); return; }
+        section.classList.remove('hidden');
+        list.innerHTML = "";
+        history.forEach(item => {
+            list.innerHTML += `<div class="flex-none w-32 snap-start cursor-pointer group relative" onclick="openInfo('${item.id}')"><div class="aspect-[3/4] rounded-lg overflow-hidden relative bg-[#151515] border border-white/5"><img src="${item.cover}" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition"><div class="absolute bottom-0 left-0 right-0 h-1 bg-gray-700"><div class="h-full bg-red-600 w-2/3"></div></div></div><h4 class="text-[10px] font-bold text-gray-400 mt-1 truncate group-hover:text-white">Ep ${item.lastEpNum} • ${item.title}</h4></div>`;
+        });
+    }
+
+    function closeInfoModal() { document.getElementById('infoModal').classList.add('opacity-0'); setTimeout(() => document.getElementById('infoModal').classList.add('hidden'), 300); }
+    function closePlayer() { const m = document.getElementById('playerModal'); const v = document.getElementById('mainVideo'); v.pause(); v.innerHTML = ""; v.onended = null; m.classList.add('opacity-0'); setTimeout(() => m.classList.add('hidden'), 300); renderHistorySection(); }
+    function srtToVttBlob(srtContent) { let vtt = "WEBVTT\n\n"; vtt += srtContent.replace(/(\d{2}:\d{2}:\d{2}),(\d{3})/g, "$1.$2"); const blob = new Blob([vtt], { type: "text/vtt" }); return URL.createObjectURL(blob); }
+    
+    function startPlayer(startIndex = 0) {
+        if (!currentDramaData) return;
+        closeInfoModal();
+        const data = currentDramaData;
+        const detail = data.detail || data;
+        const title = detail.shortPlayName || "Nonton Drama";
+        const cover = detail.shortPlayCover || "";
+        const id = detail.shortPlayId || data.shortPlayId;
+        const episodes = data.shortPlayEpisodeInfos || (data.data && data.data.shortPlayEpisodeInfos) || [];
+        document.getElementById('playerTitle').innerText = title;
+        document.getElementById('totalEpBadge').innerText = `${episodes.length} Eps`;
+        const epListEl = document.getElementById('episodeList');
+        const videoEl = document.getElementById('mainVideo');
+        const subStatus = document.getElementById('subStatus');
+        epListEl.innerHTML = "";
+
+        // Pilih warna tombol episode (Merah/Orange)
+        const activeClass = activeProviderKey === 'dramabox' ? 'bg-orange-600 text-white' : 'bg-red-600 text-white';
+        const hoverClass = activeProviderKey === 'dramabox' ? 'hover:bg-orange-600 hover:border-orange-500' : 'hover:bg-red-600 hover:border-red-500';
+
+        videoEl.onended = () => {
+            const nextIdx = currentEpisodeIndex + 1;
+            if (epListEl.children[nextIdx]) {
+                epListEl.children[nextIdx].scrollIntoView({ behavior: 'smooth', block: 'center' });
+                epListEl.children[nextIdx].click();
+            }
+        };
+
+        if (episodes.length > 0) {
+            episodes.forEach((ep, idx) => {
+                const btn = document.createElement('button');
+                btn.innerText = ep.episodeNo || (idx + 1);
+                btn.className = `py-2 rounded text-xs font-bold transition border border-white/5 bg-[#252525] text-gray-400 hover:text-white ${hoverClass}`;
+                btn.onclick = async () => {
+                    currentEpisodeIndex = idx; 
+                    Array.from(epListEl.children).forEach(c => {
+                        c.className = `py-2 rounded text-xs font-bold transition border border-white/5 bg-[#252525] text-gray-400 hover:text-white ${hoverClass}`;
+                    });
+                    btn.className = `py-2 rounded text-xs font-bold transition border border-white/5 ${activeClass}`;
+                    
+                    saveToHistory(id, title, cover, idx, ep.episodeNo || (idx + 1));
+                    const url = ep.playVoucher || ep.playUrl || ep.videoUrl;
+                    if(url) { 
+                        videoEl.src = url; 
+                        videoEl.innerHTML = ""; 
+                        subStatus.innerText = "SUB: CHECKING...";
+                        subStatus.className = "text-[10px] text-gray-500 uppercase tracking-wider border border-white/10 px-2 py-0.5 rounded bg-black/50";
+                        
+                        let subUrl = ep.subtitleUrl || ep.srtUrl || ep.captionUrl || ep.vttUrl || (ep.subtitles ? ep.subtitles[0] : null);
+                        if (!subUrl && ep.subtitleList && ep.subtitleList.length > 0) subUrl = ep.subtitleList[0].url;
+
+                        if (subUrl) {
+                            try {
+                                if(subUrl.endsWith('.vtt')) {
+                                    const track = document.createElement('track'); track.kind = 'captions'; track.label = 'Indonesia'; track.srclang = 'id'; track.src = subUrl; track.default = true; videoEl.appendChild(track);
+                                    subStatus.innerText = "SUB: ON (VTT)"; subStatus.classList.replace('text-gray-500', 'text-green-500');
+                                } else {
+                                    const res = await fetch(subUrl);
+                                    if(res.ok) {
+                                        const srtText = await res.text();
+                                        const vttUrl = srtToVttBlob(srtText);
+                                        const track = document.createElement('track'); track.kind = 'captions'; track.label = 'Indonesia'; track.srclang = 'id'; track.src = vttUrl; track.default = true; videoEl.appendChild(track);
+                                        subStatus.innerText = "SUB: ON (TXT/SRT)"; subStatus.classList.replace('text-gray-500', 'text-green-500');
+                                    } else { throw new Error("Gagal fetch Text Subtitle"); }
+                                }
+                            } catch(e) { console.error("[Sub] Gagal:", e); subStatus.innerText = "SUB: ERROR"; subStatus.classList.replace('text-gray-500', 'text-red-500'); }
+                        } else { console.log("[Sub] Tidak ada data subtitle."); subStatus.innerText = "SUB: NONE"; }
+                        videoEl.play(); 
+                    } else { alert("Link video rusak"); }
+                };
+                epListEl.appendChild(btn);
+            });
+            setTimeout(() => { if(epListEl.children[startIndex]) epListEl.children[startIndex].click(); }, 500);
+        }
+        const playerModal = document.getElementById('playerModal');
+        playerModal.classList.remove('hidden');
+        setTimeout(() => playerModal.classList.remove('opacity-0'), 300);
+    }
+
+    function setLoading(state) { 
+        const l = document.getElementById('loading'), c = document.getElementById('contentArea'); 
+        if(state) { l.classList.remove('hidden'); c.classList.add('hidden'); } 
+        else { l.classList.add('hidden'); c.classList.remove('hidden'); } 
+    }
+    document.getElementById('searchInput').addEventListener('keypress', (e) => { if (e.key === 'Enter') searchDrama(e.target.value); });
+    
+    // --- SETUP AWAL ---
+    async function applyAdminSettings() {
         try {
             const res = await fetch('/api/admin/config');
             const data = await res.json();
-            
-            if (data) {
-                // 1. Ganti Judul Tab Browser
-                document.title = data.siteName + " - Nonton Drama Asia";
-
-                // 2. Ganti Nama di Footer
+            if (data && data.siteName) {
+                document.title = data.siteName + " - Nonton Drama China";
+                const displayTitle = document.getElementById('displaySiteName');
+                if (displayTitle) displayTitle.innerText = data.siteName;
                 const footerTitle = document.getElementById('footerTitle');
                 if(footerTitle) footerTitle.innerText = data.siteName;
-
-                // 3. Ganti Deskripsi di Footer
                 const footerDesc = document.getElementById('footerDesc');
                 if(footerDesc) footerDesc.innerText = data.siteDescription;
-
-                // 4. Ganti Nama Copyright
                 const copyName = document.getElementById('copyrightName');
                 if(copyName) copyName.innerText = data.siteName;
-                
-                // 5. Ganti Logo (Jika ada)
-                if(data.logoUrl) {
-                    // Logic logo header (jika ada elemen img dengan id webLogoImg)
-                    const logoImg = document.getElementById('webLogoImg');
-                    if(logoImg) logoImg.src = data.logoUrl;
-                }
             }
-        } catch (e) { console.error("Gagal ambil config"); }
+        } catch (e) { console.error("Gagal config:", e); }
     }
 
-    window.addEventListener('load', applySettings);
+    window.addEventListener('load', () => {
+        applyAdminSettings();
+        fetchDramas(1); 
+        renderHistorySection(); 
+    });
 </script>
 
     <div id="infoModal" class="fixed inset-0 z-[100] bg-black/80 hidden flex items-center justify-center backdrop-blur-sm transition-opacity duration-300 opacity-0 px-4">
