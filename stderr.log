@@ -905,3 +905,105 @@ MongooseError: Operation `settings.findOne()` buffering timed out after 10000ms
     at Timeout._onTimeout (/home/carq8317/nodevenv/public_html/sukadracin.online/20/lib/node_modules/mongoose/lib/drivers/node-mongodb-native/collection.js:131:25)
     at listOnTimeout (node:internal/timers:581:17)
     at process.processTimers (node:internal/timers:519:7)
+DramaBox API Error [/prod-app-api/video/shortPlay/base/detail_info]: getaddrinfo ENOTFOUND api.dramabox.com
+DramaBox API Error [/prod-app-api/video/shortPlay/tab/load_all_group_tabId]: getaddrinfo ENOTFOUND api.dramabox.com
+DramaBox API Error [/prod-app-api/video/shortPlay/tab/load_all_group_tabId]: getaddrinfo ENOTFOUND api.dramabox.com
+DramaBox API Error [/prod-app-api/video/shortPlay/search/searchByKeyword]: getaddrinfo ENOTFOUND api.dramabox.com
+DramaBox API Error [/prod-app-api/video/shortPlay/tab/load_all_group_tabId]: getaddrinfo ENOTFOUND api.dramabox.com
+DramaBox API Error [/prod-app-api/video/shortPlay/tab/load_all_group_tabId]: getaddrinfo ENOTFOUND api.dramabox.com
+DramaBox API Error [/prod-app-api/video/shortPlay/tab/load_all_group_tabId]: getaddrinfo ENOTFOUND api.dramabox.com
+DramaBox API Error [/prod-app-api/video/shortPlay/tab/load_all_group_tabId]: getaddrinfo ENOTFOUND api.dramabox.com
+DramaBox API Error [/prod-app-api/video/shortPlay/tab/load_all_group_tabId]: getaddrinfo ENOTFOUND api.dramabox.com
+file:///home/carq8317/public_html/sukadracin.online/lib/dramabox-config.js:3
+import { BASE_URL, APP_VER, RSA_PUBLIC_KEY } from './dramabox-config.js'; 
+                   ^^^^^^^
+SyntaxError: The requested module './dramabox-config.js' does not provide an export named 'APP_VER'
+    at ModuleJob._instantiate (node:internal/modules/esm/module_job:175:21)
+    at async ModuleJob.run (node:internal/modules/esm/module_job:258:5)
+    at async ModuleLoader.import (node:internal/modules/esm/loader:540:24)
+    at async /home/carq8317/public_html/sukadracin.online/loader.cjs:3:5
+
+Node.js v20.19.4
+file:///home/carq8317/public_html/sukadracin.online/lib/dramabox-config.js:3
+import { BASE_URL, APP_VER, RSA_PUBLIC_KEY } from './dramabox-config.js'; 
+                   ^^^^^^^
+SyntaxError: The requested module './dramabox-config.js' does not provide an export named 'APP_VER'
+    at ModuleJob._instantiate (node:internal/modules/esm/module_job:175:21)
+    at async ModuleJob.run (node:internal/modules/esm/module_job:258:5)
+    at async ModuleLoader.import (node:internal/modules/esm/loader:540:24)
+    at async /home/carq8317/public_html/sukadracin.online/loader.cjs:3:5
+
+Node.js v20.19.4
+file:///home/carq8317/public_html/sukadracin.online/lib/dramabox-config.js:3
+import { BASE_URL, APP_VER, RSA_PUBLIC_KEY } from './dramabox-config.js'; 
+                   ^^^^^^^
+SyntaxError: The requested module './dramabox-config.js' does not provide an export named 'APP_VER'
+    at ModuleJob._instantiate (node:internal/modules/esm/module_job:175:21)
+    at async ModuleJob.run (node:internal/modules/esm/module_job:258:5)
+    at async ModuleLoader.import (node:internal/modules/esm/loader:540:24)
+    at async /home/carq8317/public_html/sukadracin.online/loader.cjs:3:5
+
+Node.js v20.19.4
+file:///home/carq8317/public_html/sukadracin.online/lib/dramabox-config.js:3
+import { BASE_URL, APP_VER, RSA_PUBLIC_KEY } from './dramabox-config.js'; 
+                   ^^^^^^^
+SyntaxError: The requested module './dramabox-config.js' does not provide an export named 'APP_VER'
+    at ModuleJob._instantiate (node:internal/modules/esm/module_job:175:21)
+    at async ModuleJob.run (node:internal/modules/esm/module_job:258:5)
+    at async ModuleLoader.import (node:internal/modules/esm/loader:540:24)
+    at async /home/carq8317/public_html/sukadracin.online/loader.cjs:3:5
+
+Node.js v20.19.4
+file:///home/carq8317/public_html/sukadracin.online/lib/dramabox-config.js:3
+import { BASE_URL, APP_VER, RSA_PUBLIC_KEY } from './dramabox-config.js'; 
+                   ^^^^^^^
+SyntaxError: The requested module './dramabox-config.js' does not provide an export named 'APP_VER'
+    at ModuleJob._instantiate (node:internal/modules/esm/module_job:175:21)
+    at async ModuleJob.run (node:internal/modules/esm/module_job:258:5)
+    at async ModuleLoader.import (node:internal/modules/esm/loader:540:24)
+    at async /home/carq8317/public_html/sukadracin.online/loader.cjs:3:5
+
+Node.js v20.19.4
+file:///home/carq8317/public_html/sukadracin.online/lib/dramabox-config.js:3
+import { BASE_URL, APP_VER, RSA_PUBLIC_KEY } from './dramabox-config.js'; 
+                   ^^^^^^^
+SyntaxError: The requested module './dramabox-config.js' does not provide an export named 'APP_VER'
+    at ModuleJob._instantiate (node:internal/modules/esm/module_job:175:21)
+    at async ModuleJob.run (node:internal/modules/esm/module_job:258:5)
+    at async ModuleLoader.import (node:internal/modules/esm/loader:540:24)
+    at async /home/carq8317/public_html/sukadracin.online/loader.cjs:3:5
+
+Node.js v20.19.4
+DramaBox API Error [/prod-app-api/video/shortPlay/tab/load_all_group_tabId]: getaddrinfo ENOTFOUND api.dramabox.com
+DramaBox API Error [/prod-app-api/video/shortPlay/tab/load_all_group_tabId]: getaddrinfo ENOTFOUND api.dramabox.com
+DramaBox API Error [/prod-app-api/video/shortPlay/tab/load_all_group_tabId]: getaddrinfo ENOTFOUND api.dramabox.com
+DramaBox API Error [/prod-app-api/video/shortPlay/tab/load_all_group_tabId]: getaddrinfo ENOTFOUND api.dramabox.com
+Exception ignored in: <_io.TextIOWrapper name='<stdout>' mode='w' encoding='utf-8'>
+BrokenPipeError: [Errno 32] Broken pipe
+DramaBox API Error [/prod-app-api/video/shortPlay/tab/load_all_group_tabId]: getaddrinfo ENOTFOUND api.dramabox.com
+DramaBox API Error [/prod-app-api/video/shortPlay/tab/load_all_group_tabId]: getaddrinfo ENOTFOUND api.dramabox.com
+Exception ignored in: <_io.TextIOWrapper name='<stdout>' mode='w' encoding='utf-8'>
+BrokenPipeError: [Errno 32] Broken pipe
+DramaBox API Error [/prod-app-api/video/shortPlay/tab/load_all_group_tabId]: getaddrinfo ENOTFOUND api.dramabox.com
+DramaBox API Error [/prod-app-api/video/shortPlay/tab/load_all_group_tabId]: getaddrinfo ENOTFOUND api.dramabox.com
+DramaBox API Error [/prod-app-api/video/shortPlay/tab/load_all_group_tabId]: getaddrinfo ENOTFOUND api.dramabox.com
+DramaBox API Error [/prod-app-api/video/shortPlay/tab/load_all_group_tabId]: getaddrinfo ENOTFOUND api.dramabox.com
+DramaBox API Error [/prod-app-api/video/shortPlay/tab/load_all_group_tabId]: getaddrinfo ENOTFOUND api.dramabox.com
+DramaBox API Error [/prod-app-api/video/shortPlay/tab/load_all_group_tabId]: getaddrinfo ENOTFOUND api.dramabox.com
+DramaBox API Error [/prod-app-api/video/shortPlay/tab/load_all_group_tabId]: getaddrinfo ENOTFOUND api.dramabox.com
+DramaBox API Error [/prod-app-api/video/shortPlay/tab/load_all_group_tabId]: getaddrinfo ENOTFOUND api.dramabox.com
+DramaBox API Error [/prod-app-api/video/shortPlay/tab/load_all_group_tabId]: getaddrinfo ENOTFOUND api.dramabox.com
+DramaBox API Error [/prod-app-api/video/shortPlay/tab/load_all_group_tabId]: getaddrinfo ENOTFOUND api.dramabox.com
+DramaBox API Error [/prod-app-api/video/shortPlay/tab/load_all_group_tabId]: getaddrinfo ENOTFOUND api.dramabox.com
+DramaBox API Error [/prod-app-api/video/shortPlay/tab/load_all_group_tabId]: getaddrinfo ENOTFOUND api.dramabox.com
+DramaBox API Error [/prod-app-api/video/shortPlay/tab/load_all_group_tabId]: getaddrinfo ENOTFOUND api.dramabox.com
+DramaBox API Error [/prod-app-api/video/shortPlay/tab/load_all_group_tabId]: getaddrinfo ENOTFOUND api.dramabox.com
+DramaBox API Error [/prod-app-api/video/shortPlay/tab/load_all_group_tabId]: getaddrinfo ENOTFOUND api.dramabox.com
+DramaBox API Error [/prod-app-api/video/shortPlay/tab/load_all_group_tabId]: getaddrinfo ENOTFOUND api.dramabox.com
+DramaBox API Error [/prod-app-api/video/shortPlay/tab/load_all_group_tabId]: getaddrinfo ENOTFOUND api.dramabox.com
+Exception ignored in: <_io.TextIOWrapper name='<stdout>' mode='w' encoding='utf-8'>
+BrokenPipeError: [Errno 32] Broken pipe
+Exception ignored in: <_io.TextIOWrapper name='<stdout>' mode='w' encoding='utf-8'>
+BrokenPipeError: [Errno 32] Broken pipe
+DramaBox API Error [/prod-app-api/video/shortPlay/tab/load_all_group_tabId]: getaddrinfo ENOTFOUND api.dramabox.com
+DramaBox API Error [/prod-app-api/video/shortPlay/tab/load_all_group_tabId]: getaddrinfo ENOTFOUND api.dramabox.com

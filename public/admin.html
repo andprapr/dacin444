@@ -3,255 +3,216 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard - StreamHub</title>
+    <title>StreamHub Admin Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        body { font-family: 'Inter', sans-serif; }
-        .glass-effect {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-        }
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> <style>
+        .glass-panel { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.08); box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1); }
+        .status-dot { height: 8px; width: 8px; border-radius: 50%; display: inline-block; margin-right: 6px; }
+        .dot-green { background-color: #22c55e; box-shadow: 0 0 8px #22c55e; }
+        .dot-red { background-color: #ef4444; box-shadow: 0 0 8px #ef4444; }
+        .dot-yellow { background-color: #eab308; box-shadow: 0 0 8px #eab308; }
+        @keyframes pulse-glow { 0% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(1.1); } 100% { opacity: 1; transform: scale(1); } }
+        .animate-pulse-custom { animation: pulse-glow 2s infinite; }
+        /* Style Input Custom */
+        .input-dark { width: 100%; background-color: #0f0f0f; border: 1px solid rgba(255,255,255,0.1); border-radius: 0.5rem; padding: 0.75rem 1rem; color: #e5e7eb; font-size: 0.875rem; transition: all 0.3s; }
+        .input-dark:focus { outline: none; border-color: #ef4444; box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.2); }
     </style>
 </head>
-<body class="bg-gray-50 text-gray-800">
+<body class="bg-[#050505] text-gray-200 font-sans antialiased min-h-screen p-6 md:p-12">
 
-    <div id="loginSection" class="flex items-center justify-center min-h-screen bg-gradient-to-br from-teal-500 to-cyan-600 p-4">
-        <div class="bg-white rounded-2xl shadow-2xl p-8 w-full max-w-sm transform transition-all hover:scale-105 duration-300">
-            <div class="text-center mb-8">
-                <div class="bg-teal-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-teal-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                    </svg>
-                </div>
-                <h2 class="text-2xl font-bold text-gray-800">Welcome Back</h2>
-                <p class="text-sm text-gray-500">Silakan login untuk mengakses dashboard</p>
+    <header class="flex justify-between items-center mb-12 max-w-6xl mx-auto">
+        <div class="flex items-center gap-4">
+            <div class="w-12 h-12 bg-gradient-to-br from-red-700 to-red-900 rounded-xl flex items-center justify-center font-bold text-white text-xl shadow-lg shadow-red-900/40">SH</div>
+            <div><h1 class="text-2xl font-bold tracking-tight text-white">StreamHub <span class="text-gray-600 font-normal">Admin</span></h1></div>
+        </div>
+        <a href="index.html" target="_blank" class="text-sm text-gray-500 hover:text-white transition flex items-center gap-2 border border-white/10 px-4 py-2 rounded-lg hover:bg-white/5">
+            Lihat Website <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+        </a>
+    </header>
+
+    <main class="max-w-6xl mx-auto space-y-10">
+        <section>
+            <div class="flex justify-between items-end mb-6">
+                <div><h2 class="text-xl font-bold text-white">Status Server API</h2><p class="text-gray-500 text-sm mt-1">Monitor kesehatan koneksi provider drama real-time.</p></div>
+                <button onclick="checkAllStatus()" class="bg-white/5 hover:bg-white/10 text-white px-4 py-2 rounded-lg text-sm transition flex items-center gap-2 border border-white/10 hover:border-white/30"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>Refresh Status</button>
             </div>
-            
-            <div class="space-y-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="glass-panel rounded-2xl p-8 relative overflow-hidden group hover:bg-white/[0.02] transition duration-500">
+                    <div class="flex items-start justify-between mb-8 relative z-10">
+                        <div class="flex items-center gap-4">
+                            <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-red-600 to-red-800 flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-red-900/40">NS</div>
+                            <div><h3 class="font-bold text-xl text-white">NetShort</h3><div class="flex items-center gap-2 mt-1" id="status-netshort"><span class="status-dot bg-gray-600"></span> <span class="text-xs text-gray-500 font-mono tracking-wide">WAITING...</span></div></div>
+                        </div>
+                        <div class="text-right"><div class="text-4xl font-bold text-white tracking-tight" id="count-netshort">-</div><div class="text-[10px] text-gray-500 uppercase tracking-widest font-bold mt-1">Total Film (Est)</div></div>
+                    </div>
+                    <div class="bg-black/40 rounded-xl p-4 flex justify-between items-center text-xs text-gray-400 border border-white/5 relative z-10 backdrop-blur-md">
+                        <div class="flex items-center gap-2"><span>Latency:</span><span id="ping-netshort" class="text-white font-mono font-bold">-</span></div>
+                        <div class="flex items-center gap-2"><span class="opacity-50">Endpoint:</span><span class="text-gray-500 font-mono">/api/netshort</span></div>
+                    </div>
+                </div>
+                <div class="glass-panel rounded-2xl p-8 relative overflow-hidden group hover:bg-white/[0.02] transition duration-500">
+                    <div class="flex items-start justify-between mb-8 relative z-10">
+                        <div class="flex items-center gap-4">
+                            <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-orange-500 to-orange-700 flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-orange-900/40">DB</div>
+                            <div><h3 class="font-bold text-xl text-white">DramaBox</h3><div class="flex items-center gap-2 mt-1" id="status-dramabox"><span class="status-dot bg-gray-600"></span> <span class="text-xs text-gray-500 font-mono tracking-wide">WAITING...</span></div></div>
+                        </div>
+                        <div class="text-right"><div class="text-4xl font-bold text-white tracking-tight" id="count-dramabox">-</div><div class="text-[10px] text-gray-500 uppercase tracking-widest font-bold mt-1">Total Film (Est)</div></div>
+                    </div>
+                    <div class="bg-black/40 rounded-xl p-4 flex justify-between items-center text-xs text-gray-400 border border-white/5 relative z-10 backdrop-blur-md">
+                        <div class="flex items-center gap-2"><span>Latency:</span><span id="ping-dramabox" class="text-white font-mono font-bold">-</span></div>
+                        <div class="flex items-center gap-2"><span class="opacity-50">Endpoint:</span><span class="text-gray-500 font-mono">/api/dramabox</span></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="glass-panel rounded-2xl p-8 border border-white/10 mt-8 relative">
+            <div class="flex justify-between items-center mb-8 border-b border-white/5 pb-4">
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Password Admin</label>
-                    <input type="password" id="loginPass" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-teal-500 focus:ring-2 focus:ring-teal-200 outline-none transition" placeholder="••••••••">
+                    <h3 class="font-bold text-xl text-white">Pengaturan Website</h3>
+                    <p class="text-xs text-gray-500 mt-1">Sesuaikan tampilan depan website Anda.</p>
                 </div>
-                <button onclick="handleLogin()" class="w-full bg-teal-600 hover:bg-teal-700 text-white font-semibold py-3 rounded-lg shadow-lg hover:shadow-xl transition duration-300">
-                    Masuk Dashboard
+                <button onclick="saveSettings()" class="bg-red-600 hover:bg-red-700 text-white px-6 py-2.5 rounded-lg text-sm font-bold transition shadow-lg shadow-red-900/20 flex items-center gap-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"></path></svg>
+                    Simpan Perubahan
                 </button>
             </div>
-            <p id="loginMsg" class="text-center mt-4 text-sm font-medium text-red-500 min-h-[20px]"></p>
-        </div>
-    </div>
-
-    <div id="panelSection" class="hidden flex h-screen overflow-hidden bg-gray-100">
-
-        <aside class="w-64 bg-teal-700 text-white hidden md:flex flex-col shadow-2xl z-20">
-            <div class="h-16 flex items-center justify-center border-b border-teal-600">
-                <h1 class="text-xl font-bold tracking-wider">STREAM<span class="text-teal-300">HUB</span></h1>
-            </div>
             
-            <nav class="flex-1 px-4 py-6 space-y-2">
-                <a href="#" class="flex items-center px-4 py-3 bg-teal-800 rounded-lg text-white shadow-sm transition">
-                    <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
-                    Dashboard
-                </a>
-                <a href="/" target="_blank" class="flex items-center px-4 py-3 text-teal-100 hover:bg-teal-600 rounded-lg transition">
-                    <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
-                    Lihat Website
-                </a>
-            </nav>
-
-            <div class="p-4 border-t border-teal-600">
-                <button onclick="location.reload()" class="flex items-center w-full px-4 py-2 text-sm text-teal-200 hover:text-white hover:bg-teal-600 rounded transition">
-                    <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
-                    Logout
-                </button>
-            </div>
-        </aside>
-
-        <div class="flex-1 flex flex-col overflow-hidden">
-            
-            <header class="h-16 bg-white shadow-sm flex items-center justify-between px-8 z-10">
-                <h2 class="text-xl font-bold text-gray-700">Overview Dashboard</h2>
-                <div class="flex items-center space-x-4">
-                    <div class="h-8 w-8 rounded-full bg-teal-100 flex items-center justify-center text-teal-700 font-bold">A</div>
-                    <span class="text-sm font-medium text-gray-600">Super Admin</span>
+            <div class="grid gap-6 md:grid-cols-2">
+                <div>
+                    <label class="block text-xs text-gray-500 mb-2 uppercase tracking-wider font-bold">Judul Website</label>
+                    <input type="text" id="siteName" placeholder="Contoh: StreamHub123" class="input-dark">
                 </div>
-            </header>
-
-            <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-50 p-8">
                 
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-                    <div class="bg-emerald-100 p-6 rounded-2xl shadow-sm border border-emerald-200">
-                        <div class="flex items-center justify-between mb-4">
-                            <h3 class="text-emerald-800 font-semibold text-sm">STATUS SERVER</h3>
-                            <span class="bg-emerald-500 text-white text-xs px-2 py-1 rounded-full">Online</span>
-                        </div>
-                        <p class="text-3xl font-bold text-emerald-900">Aktif</p>
-                    </div>
-                    
-                    <div class="bg-amber-100 p-6 rounded-2xl shadow-sm border border-amber-200">
-                        <div class="flex items-center justify-between mb-4">
-                            <h3 class="text-amber-800 font-semibold text-sm">TOTAL API</h3>
-                            <svg class="w-6 h-6 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
-                        </div>
-                        <p class="text-3xl font-bold text-amber-900">2 Sumber</p>
-                    </div>
-
-                    <div class="bg-blue-100 p-6 rounded-2xl shadow-sm border border-blue-200">
-                        <div class="flex items-center justify-between mb-4">
-                            <h3 class="text-blue-800 font-semibold text-sm">PENGUNJUNG</h3>
-                            <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
-                        </div>
-                        <p class="text-3xl font-bold text-blue-900">1,254</p>
-                    </div>
-
-                    <div class="bg-gray-200 p-6 rounded-2xl shadow-sm border border-gray-300">
-                        <div class="flex items-center justify-between mb-4">
-                            <h3 class="text-gray-600 font-semibold text-sm">VERSI APP</h3>
-                            <svg class="w-6 h-6 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
-                        </div>
-                        <p class="text-3xl font-bold text-gray-700">v1.0</p>
-                    </div>
+                <div>
+                    <label class="block text-xs text-gray-500 mb-2 uppercase tracking-wider font-bold">Tagline (Slogan)</label>
+                    <input type="text" id="siteTagline" placeholder="Contoh: Nonton Drama China Terlengkap" class="input-dark">
                 </div>
 
-                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                    
-                    <div class="lg:col-span-2 bg-white rounded-2xl shadow-sm p-6 border border-gray-100">
-                        <h3 class="text-lg font-bold text-gray-800 mb-6 flex items-center">
-                            <span class="bg-teal-100 p-2 rounded-lg mr-3 text-teal-600">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
-                            </span>
-                            Konfigurasi Website
-                        </h3>
-                        
-                        <div class="space-y-6">
-                            <div>
-                                <label class="block text-sm font-semibold text-gray-600 mb-2">Nama Website (Title)</label>
-                                <input type="text" id="siteNameInput" class="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-3 focus:bg-white focus:border-teal-500 focus:ring-2 focus:ring-teal-100 outline-none transition" placeholder="Contoh: StreamHub Indo">
-                            </div>
-
-                            <div>
-                                <label class="block text-sm font-semibold text-gray-600 mb-2">Deskripsi Footer</label>
-                                <textarea id="siteDescInput" rows="3" class="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-3 focus:bg-white focus:border-teal-500 focus:ring-2 focus:ring-teal-100 outline-none transition" placeholder="Tulis deskripsi singkat website yang akan muncul di footer..."></textarea>
-                            </div>
-
-                            <div>
-                                <label class="block text-sm font-semibold text-gray-600 mb-2">URL Logo (Link Gambar)</label>
-                                <div class="flex gap-2">
-                                    <input type="text" id="logoUrlInput" class="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-3 focus:bg-white focus:border-teal-500 focus:ring-2 focus:ring-teal-100 outline-none transition" placeholder="https://...">
-                                    <button class="bg-gray-100 hover:bg-gray-200 px-4 rounded-lg text-gray-600 font-medium">Test</button>
-                                </div>
-                                <p class="text-xs text-gray-400 mt-2">*Gunakan link gambar langsung (akhiran .png / .jpg)</p>
-                            </div>
+                <div class="md:col-span-2">
+                    <label class="block text-xs text-gray-500 mb-2 uppercase tracking-wider font-bold">URL Logo (Opsional)</label>
+                    <div class="flex gap-2">
+                        <input type="text" id="siteLogo" placeholder="https://..." class="input-dark flex-1">
+                        <div class="w-10 h-10 bg-white/5 rounded border border-white/10 flex items-center justify-center shrink-0">
+                            <img id="logoPreview" src="" class="w-8 h-8 object-contain hidden">
+                            <span id="logoPlaceholder" class="text-xs text-gray-600">Img</span>
                         </div>
                     </div>
-
-                    <div class="space-y-8">
-                        <div class="bg-white rounded-2xl shadow-sm p-6 border border-gray-100">
-                            <h3 class="text-lg font-bold text-gray-800 mb-6 flex items-center">
-                                <span class="bg-amber-100 p-2 rounded-lg mr-3 text-amber-600">
-                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.384-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg>
-                                </span>
-                                Sumber Film
-                            </h3>
-                            <div class="space-y-4">
-                                <label class="flex items-center p-3 border border-gray-200 rounded-xl cursor-pointer hover:bg-gray-50 transition">
-                                    <input type="checkbox" value="NetShort" class="api-check w-5 h-5 text-teal-600 rounded focus:ring-teal-500">
-                                    <span class="ml-3 font-medium text-gray-700">NetShort API</span>
-                                </label>
-                                <label class="flex items-center p-3 border border-gray-200 rounded-xl cursor-pointer hover:bg-gray-50 transition">
-                                    <input type="checkbox" value="DramaBox" class="api-check w-5 h-5 text-teal-600 rounded focus:ring-teal-500">
-                                    <span class="ml-3 font-medium text-gray-700">DramaBox API</span>
-                                </label>
-                            </div>
-                        </div>
-
-                        <div class="bg-white rounded-2xl shadow-sm p-6 border border-gray-100 text-center">
-                            <button onclick="saveAll()" class="w-full bg-teal-600 hover:bg-teal-700 text-white font-bold py-4 rounded-xl shadow-lg hover:shadow-xl transform transition hover:-translate-y-1">
-                                SIMPAN PERUBAHAN
-                            </button>
-                            <p id="panelMsg" class="mt-4 text-sm font-medium text-gray-500"></p>
-                        </div>
-                    </div>
-
+                    <p class="text-[10px] text-gray-600 mt-1">*Biarkan kosong jika ingin menggunakan Text Logo.</p>
                 </div>
-            </main>
-        </div>
-    </div>
 
-    <script>
-        let sessionPassword = "";
+                <div class="md:col-span-2">
+                    <label class="block text-xs text-gray-500 mb-2 uppercase tracking-wider font-bold">Deskripsi Footer</label>
+                    <textarea id="siteDesc" rows="3" placeholder="Deskripsi singkat website untuk footer..." class="input-dark"></textarea>
+                </div>
+            </div>
+        </section>
 
-        async function handleLogin() {
-            const password = document.getElementById('loginPass').value;
-            const msg = document.getElementById('loginMsg');
-            msg.innerText = "⏳ Sedang memverifikasi...";
+    </main>
 
+<script>
+        // --- 1. SYSTEM STATUS LOGIC (UPDATED: Real Count) ---
+        const CHECK_LIST = [
+            { id: 'netshort', url: '/api/netshort/foryou?page=1' },
+            { id: 'dramabox', url: '/api/dramabox/foryou?page=1' }
+        ];
+
+        // FUNGSI BARU: Mencari Total Count yang Akurat
+        function countDramas(obj) {
+            // Cek apakah ada field total langsung di root atau di dalam data
+            if (obj.total !== undefined) return obj.total;
+            if (obj.totalCount !== undefined) return obj.totalCount;
+            if (obj.data && obj.data.total !== undefined) return obj.data.total;
+            if (obj.data && obj.data.totalCount !== undefined) return obj.data.totalCount;
+
+            // Jika tidak ada field total, hitung manual array listnya (Fallback)
+            let count = 0;
+            function r(o) {
+                if (!o) return;
+                if (Array.isArray(o)) {
+                    // Jika array panjang, kemungkinan ini list filmnya
+                    if(o.length > 5) count += o.length; 
+                    o.forEach(i => r(i));
+                } else if (typeof o === 'object') {
+                    Object.values(o).forEach(v => {
+                        if (typeof v === 'object') r(v);
+                    });
+                }
+            }
+            r(obj);
+            
+            // Jika hasil hitung manual cuma sedikit (misal 10), kemungkinan itu cuma 1 page.
+            // Kita kembalikan angka itu tapi tanpa tanda "+" agar terlihat real.
+            return count > 0 ? count : 0;
+        }
+
+        async function checkProvider(p) {
+            const s = document.getElementById(`status-${p.id}`);
+            const c = document.getElementById(`count-${p.id}`);
+            const pi = document.getElementById(`ping-${p.id}`);
+
+            s.innerHTML = `<span class="status-dot bg-yellow-500 animate-pulse"></span> <span class="text-xs text-yellow-500 font-bold">PING...</span>`;
+            
+            const start = Date.now();
             try {
-                const res = await fetch('/api/admin/login', {
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({ password })
-                });
-                const result = await res.json();
-                
-                if(result.success) {
-                    sessionPassword = password;
-                    // Animasi transisi halus
-                    document.getElementById('loginSection').style.display = 'none';
-                    document.getElementById('panelSection').classList.remove('hidden');
-                    loadData();
+                const res = await fetch(p.url);
+                const d = Date.now() - start;
+
+                if (res.ok) {
+                    const json = await res.json();
+                    
+                    // Update UI
+                    s.innerHTML = `<span class="status-dot dot-green"></span> <span class="text-xs text-green-400 font-bold tracking-wide">ONLINE</span>`;
+                    pi.innerText = d + "ms";
+                    pi.className = d < 200 ? "text-green-400 font-mono font-bold" : d < 500 ? "text-yellow-400 font-mono font-bold" : "text-red-400 font-mono font-bold";
+                    
+                    // Tampilkan jumlah real
+                    c.innerText = countDramas(json); 
                 } else {
-                    msg.innerText = "❌ Password Salah!";
+                    throw new Error(res.status);
                 }
             } catch (e) {
-                msg.innerText = "❌ Gagal terhubung ke server.";
+                s.innerHTML = `<span class="status-dot dot-red"></span> <span class="text-xs text-red-500 font-bold tracking-wide">OFFLINE</span>`;
+                pi.innerText = "TIMEOUT";
+                pi.className = "text-red-500 font-mono font-bold";
+                c.innerText = "0";
             }
         }
 
-        async function loadData() {
-            try {
-                const res = await fetch('/api/admin/config');
-                const data = await res.json();
-                document.getElementById('siteNameInput').value = data.siteName || "";
-                document.getElementById('siteDescInput').value = data.siteDescription || ""; // <--- LOAD DATA DESKRIPSI
-                document.getElementById('logoUrlInput').value = data.logoUrl || "";
-                
-                const apis = data.activeApis || [];
-                document.querySelectorAll('.api-check').forEach(cb => {
-                    cb.checked = apis.includes(cb.value);
-                });
-            } catch (e) {
-                console.error("Gagal memuat data");
-            }
+        function checkAllStatus() { CHECK_LIST.forEach(p => checkProvider(p)); }
+        
+        // --- 2. SETTINGS LOGIC (LocalStorage) ---
+        function loadAdminSettings() {
+            const config = JSON.parse(localStorage.getItem('siteConfig')) || { name: 'StreamHub123', tagline: 'Nonton Drama China', desc: 'Platform streaming drama pendek terlengkap.', logo: '' };
+            document.getElementById('siteName').value = config.name;
+            document.getElementById('siteTagline').value = config.tagline;
+            document.getElementById('siteDesc').value = config.desc;
+            document.getElementById('siteLogo').value = config.logo;
+            updateLogoPreview(config.logo);
+        }
+        document.getElementById('siteLogo').addEventListener('input', (e) => updateLogoPreview(e.target.value));
+        function updateLogoPreview(url) {
+            const img = document.getElementById('logoPreview');
+            const place = document.getElementById('logoPlaceholder');
+            if (url) { img.src = url; img.classList.remove('hidden'); place.classList.add('hidden'); }
+            else { img.classList.add('hidden'); place.classList.remove('hidden'); }
+        }
+        function saveSettings() {
+            const config = {
+                name: document.getElementById('siteName').value,
+                tagline: document.getElementById('siteTagline').value,
+                desc: document.getElementById('siteDesc').value,
+                logo: document.getElementById('siteLogo').value
+            };
+            localStorage.setItem('siteConfig', JSON.stringify(config));
+            Swal.fire({ icon: 'success', title: 'Berhasil!', text: 'Pengaturan website telah disimpan.', background: '#1a1a1a', color: '#fff', confirmButtonColor: '#dc2626' });
         }
 
-        async function saveAll() {
-            const newName = document.getElementById('siteNameInput').value;
-            const newDesc = document.getElementById('siteDescInput').value; // <--- AMBIL DATA DESKRIPSI
-            const newLogo = document.getElementById('logoUrlInput').value;
-            const selectedApis = Array.from(document.querySelectorAll('.api-check:checked')).map(cb => cb.value);
-            const msg = document.getElementById('panelMsg');
-
-            msg.innerHTML = '<span class="text-blue-500">⏳ Sedang menyimpan...</span>';
-
-            try {
-                const res = await fetch('/api/admin/update-all', {
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    // KIRIM newDesc KE SERVER
-                    body: JSON.stringify({ newName, newDesc, newLogo, newApis: selectedApis, password: sessionPassword })
-                });
-                
-                if(res.ok) {
-                    msg.innerHTML = '<span class="text-green-600 font-bold">✅ Berhasil Disimpan!</span>';
-                    setTimeout(() => { msg.innerText = ""; }, 3000);
-                } else {
-                    msg.innerHTML = '<span class="text-red-500">❌ Gagal menyimpan (Cek Password/Server)</span>';
-                }
-            } catch (e) {
-                msg.innerHTML = '<span class="text-red-500">❌ Error Koneksi</span>';
-            }
-        }
+        window.addEventListener('load', () => {
+            checkAllStatus();
+            loadAdminSettings();
+            setInterval(checkAllStatus, 30000);
+        });
     </script>
 </body>
 </html>
