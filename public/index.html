@@ -96,6 +96,7 @@
 
         <div class="flex overflow-x-auto gap-3 py-4 mb-2 no-scrollbar sticky top-16 z-40 bg-[#0a0a0a]/95 backdrop-blur-md border-b border-white/5 items-center">
             <button onclick="changeTab('all')" class="tab-btn active px-6 py-2 rounded-full text-sm font-bold transition-all bg-red-600 text-white border border-red-600 shadow-[0_0_15px_rgba(220,38,38,0.5)] tracking-wide w-full md:w-auto">📺 Semua Drama</button>
+            <button id="vipTabBtn" onclick="changeTab('vip')" class="tab-btn hidden px-6 py-2 rounded-full text-sm font-bold transition-all bg-[#1a1a1a] text-gray-400 hover:text-white border border-white/10 hover:border-white/30 whitespace-nowrap tracking-wide w-full md:w-auto">👑 Film VIP</button>
         </div>
 
         <div id="loading" class="flex flex-col items-center justify-center mt-20 space-y-4"><div class="animate-spin rounded-full h-12 w-12 border-4 border-[#333] border-t-red-600"></div><p class="text-gray-400 font-medium animate-pulse">Menghubungkan ke <span id="loadingProviderName">Server</span>...</p></div>
@@ -158,7 +159,8 @@
             'dramabox': { 
                 name: 'DramaBox', 
                 listPath: '/api/dramabox/foryou?page=', 
-                searchPath: '/api/dramabox/search?query=', 
+                searchPath: '/api/dramabox/search?query=',
+                vipPath: '/api/vip',
                 color: 'bg-gradient-to-br from-orange-500 to-orange-700', 
                 text: 'DB', 
                 theme: { badge: 'bg-orange-600/90', tabActive: 'bg-orange-600 border-orange-600 shadow-[0_0_10px_rgba(234,88,12,0.4)]', spinner: 'border-t-orange-600', hover: 'hover:bg-orange-600', text: 'text-orange-500' } 
@@ -173,14 +175,134 @@
         function toggleProviderMenu() { document.getElementById('providerDropdown').classList.toggle('hidden'); }
         
         // --- DATA FETCHING ---
-        function switchProvider(key) { activeProviderKey = key; const provider = PROVIDERS[key]; document.getElementById('currentProviderName').innerText = provider.name; document.getElementById('currentProviderIcon').innerText = provider.text; document.getElementById('currentProviderIcon').className = `w-6 h-6 rounded-full ${provider.color} flex items-center justify-center text-[10px] font-bold text-white overflow-hidden shrink-0`; document.querySelector('#loading div').className = `animate-spin rounded-full h-12 w-12 border-4 border-[#333] ${provider.theme.spinner}`; document.getElementById('providerDropdown').classList.add('hidden'); document.getElementById('contentArea').innerHTML = ""; currentPage = 1; document.getElementById('loadingProviderName').innerText = provider.name; document.getElementById('pagination').classList.add('hidden'); 
-            // Logic Rekomendasi
-            if (key === 'dramabox') { loadRecommendations(); } else { document.getElementById('recommendationSection').classList.add('hidden'); }
+        function switchProvider(key) { 
+            activeProviderKey = key; 
+            const provider = PROVIDERS[key]; 
+            document.getElementById('currentProviderName').innerText = provider.name; 
+            document.getElementById('currentProviderIcon').innerText = provider.text; 
+            document.getElementById('currentProviderIcon').className = `w-6 h-6 rounded-full ${provider.color} flex items-center justify-center text-[10px] font-bold text-white overflow-hidden shrink-0`; 
+            document.querySelector('#loading div').className = `animate-spin rounded-full h-12 w-12 border-4 border-[#333] ${provider.theme.spinner}`; 
+            document.getElementById('providerDropdown').classList.add('hidden'); 
+            document.getElementById('contentArea').innerHTML = ""; 
+            currentPage = 1; 
+            document.getElementById('loadingProviderName').innerText = provider.name; 
+            document.getElementById('pagination').classList.add('hidden'); 
+            
+            // Logic Rekomendasi & VIP Tab
+            const vipBtn = document.getElementById('vipTabBtn');
+            if (key === 'dramabox') { 
+                loadRecommendations(); 
+                vipBtn.classList.remove('hidden');
+            } else { 
+                document.getElementById('recommendationSection').classList.add('hidden'); 
+                vipBtn.classList.add('hidden');
+            }
             changeTab('all'); 
         }
 
         window.addEventListener('click', function(e) { const btn = document.querySelector('button[onclick="toggleProviderMenu()"]'); const menu = document.getElementById('providerDropdown'); if (btn && menu && !btn.contains(e.target) && !menu.contains(e.target)) menu.classList.add('hidden'); });
-        function changeTab(tabName) { currentTab = tabName; const theme = PROVIDERS[activeProviderKey].theme; document.querySelectorAll('.tab-btn').forEach(btn => btn.className = "tab-btn px-4 py-1.5 rounded-full text-sm font-medium transition-all bg-[#1a1a1a] text-gray-400 hover:text-white border border-white/10 hover:border-white/30 whitespace-nowrap"); const activeBtn = document.querySelector(`button[onclick="changeTab('${tabName}')"]`); if(activeBtn) activeBtn.className = `tab-btn active px-6 py-2 rounded-full text-sm font-bold transition-all text-white whitespace-nowrap tracking-wide w-full md:w-auto ${theme.tabActive}`; currentPage = 1; fetchDramas(1); }
+        
+        function changeTab(tabName) { 
+            currentTab = tabName; 
+            const theme = PROVIDERS[activeProviderKey].theme; 
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.className = "tab-btn px-4 py-1.5 rounded-full text-sm font-medium transition-all bg-[#1a1a1a] text-gray-400 hover:text-white border border-white/10 hover:border-white/30 whitespace-nowrap"); 
+            const activeBtn = document.querySelector(`button[onclick="changeTab('${tabName}')"]`); 
+            if(activeBtn) activeBtn.className = `tab-btn active px-6 py-2 rounded-full text-sm font-bold transition-all text-white whitespace-nowrap tracking-wide w-full md:w-auto ${theme.tabActive}`; 
+            currentPage = 1; 
+            
+            if (tabName === 'vip' && activeProviderKey === 'dramabox') {
+                loadVIPContent();
+            } else {
+                fetchDramas(1);
+            }
+        }
+        
+        // --- VIP CONTENT ---
+        async function loadVIPContent() {
+            setLoading(true);
+            try {
+                const res = await fetch('/api/vip');
+                const json = await res.json();
+                
+                if (json.data && json.data.columnVoList) {
+                    renderVIPGrid(json.data.columnVoList);
+                } else {
+                    document.getElementById('contentArea').innerHTML = `<div class="text-center text-gray-500 mt-20 px-4">Data VIP tidak tersedia</div>`;
+                }
+                document.getElementById('pagination').classList.add('hidden');
+            } catch (error) {
+                console.error('Error loading VIP:', error);
+                document.getElementById('contentArea').innerHTML = `<div class="text-center text-gray-500 mt-20 px-4">Gagal memuat Film VIP</div>`;
+                document.getElementById('pagination').classList.add('hidden');
+            }
+            setLoading(false);
+        }
+
+        function renderVIPGrid(columns) {
+            const container = document.getElementById('contentArea');
+            container.innerHTML = "";
+            
+            columns.forEach((column, colIdx) => {
+                if (!column.bookList || column.bookList.length === 0) return;
+                
+                // Section Header
+                const section = document.createElement('div');
+                section.className = "mb-10";
+                
+                const header = document.createElement('div');
+                header.className = "flex items-center gap-3 mb-5 px-1";
+                header.innerHTML = `
+                    <h2 class="text-xl font-bold text-white">${column.title || 'Film VIP'}</h2>
+                    <span class="text-xs bg-gradient-to-r from-yellow-500 to-orange-500 text-white px-3 py-1 rounded-full font-bold shadow-lg">👑 VIP</span>
+                `;
+                section.appendChild(header);
+                
+                // Grid Container
+                const grid = document.createElement('div');
+                grid.className = "grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 sm:gap-6";
+                
+                column.bookList.forEach((item, idx) => {
+                    const id = item.bookId;
+                    const title = item.bookName || "Tanpa Judul";
+                    const cover = item.coverWap || "https://placehold.co/300x450?text=No+Cover";
+                    const playCount = item.playCount || "N/A";
+                    const chapterCount = item.chapterCount || 0;
+                    const corner = item.corner || "";
+                    const tags = (item.tags || []).slice(0, 2).join(', ');
+                    
+                    // Badge untuk corner "Anggota Saja"
+                    let cornerBadge = '';
+                    if (corner && corner.includes('Anggota')) {
+                        cornerBadge = `<span class="bg-gradient-to-r from-purple-600 to-pink-600 text-white text-[9px] font-bold px-1.5 py-0.5 rounded shadow-sm mb-1 block w-fit">🔒 ${corner}</span>`;
+                    }
+                    
+                    const cardHTML = `
+                        <div class="group cursor-pointer relative bg-[#151515] rounded-xl overflow-hidden shadow-lg hover:shadow-orange-900/20 transition-all duration-300 hover:-translate-y-1 card-anim" style="animation-delay: ${idx * 30}ms" onclick="openInfo('${id}')">
+                            <div class="aspect-[3/4] overflow-hidden relative">
+                                <img src="${cover}" alt="${title}" loading="lazy" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent opacity-80 group-hover:opacity-100"></div>
+                                <div class="absolute top-2 right-2 flex flex-col items-end">
+                                    ${cornerBadge}
+                                    <span class="bg-orange-600/90 text-white text-[9px] font-bold px-1.5 py-0.5 rounded backdrop-blur-sm shadow-sm">👁️ ${playCount}</span>
+                                </div>
+                            </div>
+                            <div class="p-3">
+                                <h3 class="text-xs sm:text-sm font-bold text-gray-200 line-clamp-2 leading-snug group-hover:text-orange-500 transition-colors">${title}</h3>
+                                ${tags ? `<p class="text-[10px] text-gray-500 mt-1">${tags}</p>` : ''}
+                                <p class="text-[10px] text-gray-600 mt-0.5">${chapterCount} Eps</p>
+                            </div>
+                        </div>
+                    `;
+                    
+                    grid.innerHTML += cardHTML;
+                });
+                
+                section.appendChild(grid);
+                container.appendChild(section);
+            });
+            
+            container.classList.remove('hidden');
+        }
         
         // --- REKOMENDASI ---
         async function loadRecommendations() {
@@ -506,9 +628,10 @@
 
         window.addEventListener('load', () => { 
             applySiteConfig(); 
-            // Cek jika default Dramabox, load rekomendasi
+            // Cek jika default Dramabox, load rekomendasi & tampilkan tab VIP
             if (activeProviderKey === 'dramabox') {
                 loadRecommendations();
+                document.getElementById('vipTabBtn').classList.remove('hidden');
             }
             fetchDramas(1); 
             renderHistorySection(); 
