@@ -1,195 +1,180 @@
 import { Router } from 'express';
+import axios from 'axios'; 
 import { Settings } from '../lib/db.js'; 
 import Dramabox from '../lib/dramabox-class.js'; 
 import { allepisode as nsDetail, search as nsSearch, foryou as nsHome } from '../lib/netshort.js';
 
 const router = Router();
 
-// ==========================================
-// A. ENDPOINT DINAMIS & V2
-// ==========================================
+const createProxyUrl = (rawUrl) => {
+    if (!rawUrl) return null;
+    return `/api/proxy?url=${encodeURIComponent(rawUrl)}`;
+};
 
-// 1. Home
-router.get('/home', async (req, res) => {
+const formatNetshortItem = (item) => ({
+    id: item.shortPlayId, bookId: item.shortPlayId, source: 'netshort',
+    name: item.shortPlayName, title: item.shortPlayName,
+    cover: item.shortPlayCover || "https://placehold.co/300x450?text=No+Cover",
+    poster: item.shortPlayCover, chapterCount: item.chapterCount || 0,
+    introduction: item.introduction || "Sinopsis tidak tersedia.",
+    playCount: item.heatScoreShow || "", tags: item.labelArray || [], status: 1
+});
+
+// PROXY VIDEO
+router.get('/proxy', async (req, res) => {
+    const videoUrl = req.query.url;
+    if (!videoUrl) return res.status(400).send("URL video tidak ditemukan");
     try {
-        const source = req.query.source || req.query.server || 'dramabox';
-        if (source === 'netshort') {
-            const result = await nsHome(parseInt(req.query.page) || 1);
-            return res.json(result);
-        } else {
-            const dramabox = new Dramabox(req.query.lang || 'in');
-            const result = await dramabox.getRecommendedBooks(req.query.page || 1);
-            return res.json({ status: true, success: true, data: result.book, isMore: result.isMore });
-        }
+        const headers = { 'User-Agent': 'okhttp/4.10.0', 'Referer': 'https://www.dramabox.com/' };
+        if (req.headers.range) headers['Range'] = req.headers.range;
+        const response = await axios({
+            method: 'GET', url: videoUrl, responseType: 'stream', headers: headers,
+            validateStatus: status => status >= 200 && status < 300
+        });
+        res.status(response.status);
+        ['content-type', 'content-length', 'content-range', 'accept-ranges'].forEach(h => {
+            if (response.headers[h]) res.set(h.replace(/\b\w/g, l => l.toUpperCase()), response.headers[h]);
+        });
+        response.data.pipe(res);
+    } catch (error) { if (!res.headersSent) res.status(500).send("Proxy Error"); }
+});
+
+// REKOMENDASI (FIXED)
+router.get('/recommend', async (req, res) => {
+    try {
+        res.set('Cache-Control', 'public, max-age=600');
+        const dramabox = new Dramabox('in');
+        const result = await dramabox.getRecommendedBooks(1);
+        res.json({ success: true, data: result });
     } catch (e) { res.status(500).json({ success: false, message: e.message }); }
 });
 
-// 2. Search
+// HOME & SEARCH
+router.get('/home', async (req, res) => {
+    try {
+        res.set('Cache-Control', 'public, max-age=300'); 
+        const source = req.query.source || req.query.server || 'dramabox';
+        if (source === 'netshort') {
+            const rawData = await nsHome(parseInt(req.query.page) || 1);
+            const list = rawData.contentInfos || [];
+            return res.json({ status: true, success: true, data: list.map(formatNetshortItem), isMore: list.length > 0 });
+        }
+        const dramabox = new Dramabox('in');
+        const result = await dramabox.getRecommendedBooks(req.query.page || 1);
+        const labeledData = result.map(item => ({ ...item, source: 'dramabox' }));
+        return res.json({ status: true, success: true, data: labeledData, isMore: true });
+    } catch (e) { res.status(500).json({ success: false, message: e.message }); }
+});
+
 router.get('/search', async (req, res) => {
     try {
         const source = req.query.source || req.query.server || 'dramabox';
+        const query = req.query.q || req.query.query || "";
         if (source === 'netshort') {
-            const result = await nsSearch(req.query.q || req.query.query);
-            return res.json(result);
-        } else {
-            const dramabox = new Dramabox(req.query.lang || 'in');
-            const result = await dramabox.searchDrama(req.query.q || req.query.query || "");
-            return res.json({ status: true, success: true, data: result.book });
+            const rawData = await nsSearch(query);
+            const list = Array.isArray(rawData) ? rawData : (rawData.contentInfos || []);
+            return res.json({ status: true, success: true, data: list.map(formatNetshortItem) });
         }
+        const dramabox = new Dramabox('in');
+        const result = await dramabox.searchDrama(query);
+        const labeledData = result.map(item => ({ ...item, source: 'dramabox' }));
+        return res.json({ status: true, success: true, data: labeledData });
     } catch (e) { res.status(500).json({ success: false, message: e.message }); }
 });
 
-// --- HELPER FUNCTION UNTUK DATA MERGING ---
-// Fungsi ini menggabungkan data Detail (yang sering kosong) dengan data Chapter (yang lengkap)
-const getFullDramaData = async (bookId, lang = 'in') => {
-    const dramabox = new Dramabox(lang);
-    
-    // Request Detail & Chapter secara paralel
-    const [rawDetail, rawChapters] = await Promise.all([
-        dramabox.getRawDetail(bookId),
-        dramabox.getRawChapters(bookId)
-    ]);
-
-    const detail = rawDetail?.data || {};
-    const chapters = rawChapters?.data?.chapterList || [];
-    // Data cadangan ada di header response chapter
-    const fallbackInfo = rawChapters?.data || {};
-
-    return {
-        id: bookId,
-        bookId: bookId,
-        // Logika prioritas: Detail -> Falback (Chapter Header) -> Default
-        name: detail.bookName || detail.name || fallbackInfo.bookName || "Judul Tidak Ditemukan",
-        title: detail.bookName || detail.name || fallbackInfo.bookName || "Judul Tidak Ditemukan",
-        
-        cover: detail.coverWap || detail.cover || fallbackInfo.coverWap || "https://via.placeholder.com/300x450?text=No+Cover",
-        poster: detail.coverWap || detail.cover || fallbackInfo.coverWap, // field 'poster' untuk beberapa frontend
-        
-        introduction: detail.introduction || detail.briefIntroduction || "Sinopsis belum tersedia.",
-        desc: detail.introduction || detail.briefIntroduction || "Sinopsis belum tersedia.",
-        description: detail.introduction || detail.briefIntroduction || "Sinopsis belum tersedia.",
-        
-        episode_count: chapters.length,
-        chapters: chapters
-    };
-};
-
-// 3. Detail Drama (Support V1 & V2)
-// Menangani: /api/detail/:bookId DAN /api/detail/:bookId/v2
+// DETAIL V2 (FIX JUMLAH EPISODE)
 router.get(['/detail/:bookId', '/detail/:bookId/v2'], async (req, res) => {
     try {
+        res.set('Cache-Control', 'public, max-age=3600');
         const source = req.query.source || req.query.server || 'dramabox';
-        const { bookId } = req.params;
-
         if (source === 'netshort') {
-            return res.json(await nsDetail(bookId));
-        } 
+            const nsData = await nsDetail(req.params.bookId);
+            return res.json({
+                ...nsData,
+                id: req.params.bookId, source: 'netshort',
+                name: nsData.shortPlayName || nsData.name, cover: nsData.shortPlayCover || nsData.cover,
+                chapters: (nsData.chapters || []).map(ch => ({ ...ch, url: ch.url || null }))
+            });
+        }
         
-        // Pakai fungsi helper di atas
-        const finalData = await getFullDramaData(bookId, req.query.lang || 'in');
+        // DRAMABOX LOGIC
+        const dramabox = new Dramabox('in');
         
+        // Panggil fungsi gabungan (Webfic + Batch 1)
+        const fullData = await dramabox.getChaptersWithMetadata(req.params.bookId);
+        
+        const d = fullData.metadata || {};
+        const chs = fullData.chapters || [];
+
+        const finalName = d.bookName || "Judul Tidak Ditemukan";
+        const finalCover = d.cover || d.coverWap || "https://placehold.co/300x450?text=No+Cover";
+        const finalIntro = d.introduction || d.briefIntroduction || "Sinopsis tidak tersedia.";
+        
+        // Format chapter agar seragam
+        const formattedChapters = chs.map(ch => ({
+            id: ch.id,
+            index: ch.index,
+            name: ch.name || `Episode ${ch.index + 1}`,
+            url: ch.url ? createProxyUrl(ch.url) : null,
+            videoPath: ch.url // Simpan raw url juga
+        }));
+
+        // Struktur respon standar
         return res.json({ 
             status: true, 
             success: true, 
-            data: finalData 
+            data: {
+                id: req.params.bookId,
+                bookId: req.params.bookId,
+                source: 'dramabox',
+                name: finalName,
+                cover: finalCover,
+                introduction: finalIntro,
+                chapters: formattedChapters, // List lengkap 1-tamat
+                episode_count: formattedChapters.length
+            }
         });
 
     } catch (e) { res.status(500).json({ success: false, message: e.message }); }
 });
 
-// 4. Daftar Chapter
-router.get('/chapters/:bookId', async (req, res) => {
-    try {
-        const dramabox = new Dramabox(req.query.lang || 'in');
-        const raw = await dramabox.getRawChapters(req.params.bookId);
-        res.json({ success: true, data: raw?.data?.chapterList || [] });
-    } catch (e) { res.status(500).json({ success: false, message: e.message }); }
-});
-
-// 5. Dubbed
-router.get('/dubbed', async (req, res) => {
-    try {
-        const dramabox = new Dramabox(req.query.lang || 'in');
-        const result = await dramabox.getDubbedList(req.query.page || 1, req.query.size || 15);
-        res.json(result);
-    } catch (e) { res.status(500).json({ success: false, message: e.message }); }
-});
-
-// 6. Stream
 router.get('/stream', async (req, res) => {
     try {
+        res.set('Cache-Control', 'no-cache'); 
+        const { bookId, episode } = req.query;
+        if (!bookId) return res.status(400).json({ status: false, message: "Book ID required" });
+        
         const dramabox = new Dramabox('in');
-        const result = await dramabox.getStreamUrl(req.query.bookId, req.query.episode);
-        res.json(result);
-    } catch (e) { res.status(500).json({ error: e.message }); }
-});
+        const index = parseInt(episode) || 0;
+        const result = await dramabox.request("/drama-box/chapterv2/batch/load", {
+            boundaryIndex: 0, comingPlaySectionId: -1, index: index,
+            currencyPlaySource: "discover_new_rec_new", needEndRecommend: 0,
+            preLoad: false, loadDirection: 0, bookId: bookId.toString()
+        });
 
-// 7. Kategori & VIP (Opsional / Placeholder)
-router.get('/vip', async (req, res) => {
-    res.json({ success: true, message: "VIP endpoint placeholder" });
-});
-router.get('/categories', async (req, res) => {
-    res.json({ success: true, data: [] }); // Isi nanti jika butuh
-});
+        const list = result?.data?.chapterList || [];
+        const targetChapter = list.find(ch => (ch.index === index) || (ch.id == episode)) || list[0];
 
+        if (!targetChapter) return res.status(404).json({ status: false, message: "Video belum tersedia" });
 
-// ==========================================
-// B. ENDPOINT LEGACY (Khusus Frontend Lama)
-// ==========================================
+        const cdn = targetChapter.cdnList?.find(c => c.isDefault === 1) || targetChapter.cdnList?.[0];
+        let videoInfo = cdn?.videoPathList?.find(v => v.isDefault === 1);
+        if (!videoInfo && cdn?.videoPathList) videoInfo = cdn.videoPathList.find(v => v.quality === 720) || cdn.videoPathList[0];
 
-router.get('/dramabox/foryou', async (req, res) => {
-    try {
-        const dramabox = new Dramabox('in');
-        const result = await dramabox.getRecommendedBooks(parseInt(req.query.page) || 1);
-        res.json({ status: true, success: true, data: result.book });
+        if (!videoInfo?.videoPath) return res.status(404).json({ status: false, message: "Link rusak/VIP" });
+
+        res.json({ status: true, success: true, url: createProxyUrl(videoInfo.videoPath), quality: videoInfo.quality });
     } catch (e) { res.status(500).json({ status: false, message: e.message }); }
 });
 
-router.get('/dramabox/search', async (req, res) => {
-    try {
-        const dramabox = new Dramabox('in');
-        const result = await dramabox.searchDrama(req.query.query);
-        res.json({ status: true, success: true, data: result.book });
-    } catch (e) { res.status(500).json({ status: false, message: e.message }); }
-});
-
-// Popup Legacy (Endpoint ini biasanya dipanggil frontend lama)
-router.get('/dramabox/allepisode', async (req, res) => {
-    try {
-         const bookId = req.query.shortPlayId;
-         // Pakai helper yang sama agar popup legacy juga terisi
-         const finalData = await getFullDramaData(bookId, 'in');
-         res.json({ status: true, success: true, data: finalData });
-    } catch (e) { res.status(500).json({ status: false, message: e.message }); }
-});
-
-// -- NETSHORT LEGACY --
-router.get('/netshort/foryou', async (req, res) => {
-    try { const r = await nsHome(parseInt(req.query.page)||1); res.json(r); } catch (e) { res.status(500).json({error:e.message}); }
-});
-router.get('/netshort/search', async (req, res) => {
-    try { const r = await nsSearch(req.query.query); res.json(r); } catch (e) { res.status(500).json({error:e.message}); }
-});
-router.get('/netshort/allepisode', async (req, res) => {
-    try { const r = await nsDetail(req.query.shortPlayId); res.json(r); } catch (e) { res.status(500).json({error:e.message}); }
-});
-
-// -- ADMIN --
-router.get('/admin/config', async (req, res) => {
-    try {
-        let config = await Settings.findOne();
-        if (!config) config = await Settings.create({ siteName: "StreamHub Indo" }); 
-        res.json(config);
-    } catch (e) { res.status(500).json({ error: "DB Error" }); }
-});
-router.post('/admin/update-all', async (req, res) => {
-    const { newName, newDesc, newLogo, password } = req.body;
-    try {
-        const config = await Settings.findOne();
-        if (config.adminPassword && config.adminPassword !== password) return res.status(401).json({ success: false, message: "Wrong Password" });
-        config.siteName = newName; if(newDesc) config.siteDescription = newDesc; if(newLogo) config.logoUrl = newLogo;
-        await config.save(); res.json({ success: true });
-    } catch (e) { res.status(500).json({ success: false }); }
-});
+// LEGACY
+router.get('/dramabox/allepisode', async (req, res) => { try { res.set('Cache-Control', 'public, max-age=3600'); const finalData = await getFullDramaData(req, req.query.shortPlayId, 'in'); res.json({ status: true, success: true, data: finalData }); } catch (e) { res.status(500).json({ status: false, message: e.message }); } });
+router.get('/dramabox/foryou', async (req, res) => { try { const r = await new Dramabox('in').getRecommendedBooks(parseInt(req.query.page)||1); res.json({status:true,success:true,data:r}); } catch (e) { res.status(500).json({error:e.message}); } });
+router.get('/dramabox/search', async (req, res) => { try { const r = await new Dramabox('in').searchDrama(req.query.query); res.json({status:true,success:true,data:r}); } catch (e) { res.status(500).json({error:e.message}); } });
+router.get('/netshort/foryou', async (req, res) => { try { const r = await nsHome(parseInt(req.query.page)||1); res.json(r); } catch (e) { res.status(500).json({error:e.message}); } });
+router.get('/netshort/search', async (req, res) => { try { const r = await nsSearch(req.query.query); res.json(r); } catch (e) { res.status(500).json({error:e.message}); } });
+router.get('/netshort/allepisode', async (req, res) => { try { const r = await nsDetail(req.query.shortPlayId); res.json(r); } catch (e) { res.status(500).json({error:e.message}); } });
+router.get('/admin/config', async (req, res) => { try { let c = await Settings.findOne(); if (!c) c = await Settings.create({ siteName: "StreamHub Indo" }); res.json(c); } catch (e) { res.status(500).json({ error: "DB" }); } });
+router.post('/admin/update-all', async (req, res) => { const { newName, newDesc, newLogo, password } = req.body; try { const c = await Settings.findOne(); if (c.adminPassword && c.adminPassword !== password) return res.status(401).json({ success: false }); c.siteName = newName; if(newDesc) c.siteDescription = newDesc; if(newLogo) c.logoUrl = newLogo; await c.save(); res.json({ success: true }); } catch (e) { res.status(500).json({ success: false }); } });
 
 export default router;
