@@ -39,6 +39,19 @@ router.get('/proxy', async (req, res) => {
     } catch (error) { if (!res.headersSent) res.status(500).send("Proxy Error"); }
 });
 
+// VIP CONTENT
+router.get('/vip', async (req, res) => {
+    try {
+        res.set('Cache-Control', 'public, max-age=600');
+        const lang = req.query.lang || 'in';
+        const dramabox = new Dramabox(lang);
+        const result = await dramabox.getVIPContent();
+        res.json({ success: true, data: result });
+    } catch (e) { 
+        res.status(500).json({ success: false, message: e.message }); 
+    }
+});
+
 // REKOMENDASI (FIXED)
 router.get('/recommend', async (req, res) => {
     try {
